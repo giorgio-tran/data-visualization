@@ -1,8 +1,11 @@
 "use client";
 
-import Globe from "react-globe.gl";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
+import dynamic from "next/dynamic";
 import * as d3 from "d3";
+
+// Dynamically import the Globe component with SSR disabled
+const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
 
 export default function Page() {
   const [countries, setCountries] = useState({ features: [] });
@@ -30,26 +33,30 @@ export default function Page() {
   colorScale.domain([0, maxVal]);
 
   return (
-    <Globe
-      globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-      backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-      lineHoverPrecision={0}
-      polygonsData={countries.features.filter(
-        (d) => d.properties.ISO_A2 !== "AQ"
-      )}
-      polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.06)}
-      polygonCapColor={(d) =>
-        d === hoverD ? "steelblue" : colorScale(getVal(d))
-      }
-      polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
-      polygonStrokeColor={() => "#111"}
-      polygonLabel={({ properties: d }) => `
-      <b>${d.ADMIN} (${d.ISO_A2}):</b> <br />
-      GDP: <i>${d.GDP_MD_EST}</i> M$<br/>
-      Population: <i>${d.POP_EST}</i>
-    `}
-      onPolygonHover={setHoverD}
-      polygonsTransitionDuration={300}
-    />
+    <div className="w-full h-screen">
+      <Suspense fallback={<div>Loading Globe...</div>}>
+        <Globe
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+          backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+          lineHoverPrecision={0}
+          polygonsData={countries.features.filter(
+            (d) => d.properties.ISO_A2 !== "AQ"
+          )}
+          polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.06)}
+          polygonCapColor={(d) =>
+            d === hoverD ? "steelblue" : colorScale(getVal(d))
+          }
+          polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
+          polygonStrokeColor={() => "#111"}
+          polygonLabel={({ properties: d }) => `
+            <b>${d.ADMIN} (${d.ISO_A2}):</b> <br />
+            GDP: <i>${d.GDP_MD_EST}</i> M$<br/>
+            Population: <i>${d.POP_EST}</i>
+          `}
+          // onPolygonHover={setHoverD}
+          polygonsTransitionDuration={300}
+        />
+      </Suspense>
+    </div>
   );
 }
