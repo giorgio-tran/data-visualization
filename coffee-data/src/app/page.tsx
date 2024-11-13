@@ -33,7 +33,7 @@ export default function Page() {
   colorScale.domain([0, maxVal]);
 
   return (
-    <div className="w-full h-screen">
+    <div>
       <Suspense fallback={<div>Loading Globe...</div>}>
         <Globe
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
