@@ -1,17 +1,18 @@
-'use client' 
+'use client'
 
 import React, { useState } from "react";
 import GlobeComponent from "./componment/globe";
+import MenuButton from "./componment/menuButton";
+import CountryList from "./componment/countryList";
+import InfoBox from "./componment/infoBox";
+import ActionButtons from "./componment/actionButtons";
 
 export default function Page() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const items = ["Country 1", "Country 2", "Country 3", "Country 4", "Country 5"];
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
-
+    const toggleMenu = () => setMenuOpen(!menuOpen);
     const handleSelect = (item) => {
         setSelectedItem(item);
         setMenuOpen(false);
@@ -30,53 +31,20 @@ export default function Page() {
                     </div>
                 </div>
 
-                {/* Description Card inside main card with reduced width */}
-                <div className="absolute top-4 right-4 bg-white shadow-lg rounded-lg p-4 w-40 h-48">
-                    <h3 className="text-lg font-semibold">General Info</h3>
-                    <p className="text-sm text-gray-700 mt-2">
-                        Description of what is an importer
-                    </p>
-                </div>
+                <InfoBox />
 
-                {/* Toggleable Scrollable Menu at the Left-Bottom Corner */}
                 <div className="absolute bottom-4 left-4">
-                    <button
-                        onClick={toggleMenu}
-                        className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
-                    >
-                        {menuOpen ? "Close" : "Country"}
-                    </button>
-
+                    <MenuButton menuOpen={menuOpen} toggleMenu={toggleMenu} />
                     {menuOpen && (
-                        <div className="bg-white shadow-lg rounded-lg mt-2 p-4 w-48 h-48 overflow-y-auto">
-                            {items.map((item, index) => (
-                                <div
-                                    key={index}
-                                    onClick={() => handleSelect(item)}
-                                    className={`p-2 cursor-pointer rounded ${
-                                        selectedItem === item
-                                            ? "bg-blue-500 text-white"
-                                            : "hover:bg-gray-200"
-                                    }`}
-                                >
-                                    {item}
-                                </div>
-                            ))}
-                        </div>
+                        <CountryList 
+                            items={items} 
+                            selectedItem={selectedItem} 
+                            handleSelect={handleSelect} 
+                        />
                     )}
                 </div>
 
-                <div className="mt-6 flex justify-center space-x-4">
-                    <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
-                        Import
-                    </button>
-                    <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
-                        Export
-                    </button>
-                    <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
-                        Produced
-                    </button>
-                </div>
+                <ActionButtons />
             </div>
         </div>
     );
