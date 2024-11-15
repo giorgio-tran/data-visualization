@@ -78,30 +78,32 @@ export default function GlobeComponent(props: GlobeComponent) {
   }
 
   return (
-    <div>
-      <Globe
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-        backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-        lineHoverPrecision={0}
-        polygonsData={countries.features}
-        polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
-        polygonCapColor={(d) =>
-          d === hoverD ? "steelblue" : colorScale(getVal(d))
-        }
-        polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
-        polygonStrokeColor={() => "#111"}
-        polygonLabel={({ properties: d }) => `
-          <div id="polygon-label-parent">
-            <div id="polygon-label-background"></div>
-            <div id="polygon-label-text">
-              <b>${d.NAME_LONG}</b> <br />
-              Coffee ${dynamicLabel[category]}: <i>${d[category][year]}</i> kg<br/>
+    <div className="flex justify-center items-center w-full mt-4">
+      <div className="container w-full max-w-2xl h-full max-h-[600px] overflow-hidden flex justify-center items-center">
+        <Globe
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+          backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+          lineHoverPrecision={0}
+          polygonsData={countries.features}
+          polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
+          polygonCapColor={(d) =>
+            d === hoverD ? "steelblue" : colorScale(getVal(d))
+          }
+          polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
+          polygonStrokeColor={() => "#111"}
+          polygonLabel={({ properties: d }) => `
+            <div id="polygon-label-parent">
+              <div id="polygon-label-background"></div>
+              <div id="polygon-label-text">
+                <b>${d.NAME_LONG}</b> <br />
+                Coffee ${dynamicLabel[category]}: <i>${d[category][year]}</i> kg<br/>
+              </div>
             </div>
-          </div>
-        `}
-        onPolygonHover={setHoverD}
-        polygonsTransitionDuration={300}
-      />
+          `}
+          onPolygonHover={setHoverD}
+          polygonsTransitionDuration={300}
+        />
+      </div>
     </div>
   );
 }

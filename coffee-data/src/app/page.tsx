@@ -1,60 +1,22 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import GlobeComponent from "./componment/globe";
-import MenuButton from "./componment/menuButton";
-import CountryList from "./componment/countryList";
-import InfoBox from "./componment/infoBox";
-import ActionButtons from "./componment/actionButtons";
-import PieChart from "./componment/pieChart";
-import {Bar} from "react-chartjs-2";
-import BarChart from "@/app/componment/barChart";
+import GlobeComponent from './componment/globe';
+import ActionButtons from './componment/actionButtons';
+import BarChart from './componment/barChart';
+import Heading from './componment/heading';
+import CountryDropdown from './componment/countryDropdown';
 
-export default function Page() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const items = [
-    "Country 1",
-    "Country 2",
-    "Country 3",
-    "Country 4",
-    "Country 5",
-  ];
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-  const handleSelect = (item) => {
-    setSelectedItem(item);
-    setMenuOpen(false);
-  };
+const MainPage = () => {
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full h-[800px] overflow-hidden relative">
-        <div className="mt-4 text-center">
-          <h2 className="text-2xl font-semibold">Coffee Visualization</h2>
-        </div>
-
-        <div className="flex justify-center items-center w-full mt-4">
-          <div className="container w-96 h-96 overflow-hidden rounded-full flex justify-center items-center">
-            <GlobeComponent category="coffee_imports" year="2019" />
-          </div>
-        </div>
-
-        <InfoBox />
-
-        <div className="absolute bottom-4 left-4">
-          <MenuButton menuOpen={menuOpen} toggleMenu={toggleMenu} />
-          {menuOpen && (
-            <CountryList
-              items={items}
-              selectedItem={selectedItem}
-              handleSelect={handleSelect}
-            />
-          )}
-        </div>
-        <BarChart year={"1990"} type={"Import"}></BarChart>
-        <ActionButtons />
-      </div>
+    <div className="relative w-full h-screen p-4 space-y-6">
+      <Heading title="Coffee Dataset Visualization" />
+      <CountryDropdown category="coffee_imports" year="2019" />
+      <GlobeComponent category="coffee_imports" year="2019" />
+      <ActionButtons />
+      <BarChart year="1990" type="Import" />
     </div>
   );
-}
+};
+
+export default MainPage;

@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function ActionButtons() {
+const ActionButtons = () => {
     return (
         <div className="mt-6 flex justify-center space-x-4">
             <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
@@ -17,3 +17,5 @@ export default function ActionButtons() {
         </div>
     );
 }
+
+export default ActionButtons;
