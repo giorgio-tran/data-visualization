@@ -6,9 +6,17 @@ import * as d3 from "d3";
 // Dynamically import the Globe component with SSR disabled
 const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
 
-export default function GlobeComponent() {
+type GlobeComponent = {
+  category: "coffee_imports" | "coffee_exports" | "coffee_production";
+  year: string;
+};
+
+export default function GlobeComponent(props: GlobeComponent) {
   const [countries, setCountries] = useState({ features: [] });
   const [hoverD, setHoverD] = useState();
+
+  const category = props.category;
+  const year = props.year;
 
   useEffect(() => {
     // load data from the local file in the public directory
@@ -17,22 +25,23 @@ export default function GlobeComponent() {
       .then((countries) => {
         setCountries({
           features: countries.features.filter(
-            (item) => item.properties.coffee_imports
+            (item) => item.properties[category]
           ),
         });
       });
-  }, []);
+  }, [category, year]);
 
   const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
 
   // Calculate GDP per capita (avoiding countries with small populations)
-  const getVal = (feat) => feat["properties"]["coffee_imports"]["1990"];
+  const getVal = (feat) => feat["properties"][category][year];
 
   // Find the max value to scale the color range
   const maxVal = useMemo(
     () => Math.max(...countries.features.map(getVal)),
     [countries]
   );
+
   colorScale.domain([0, maxVal]);
 
   if (countries.features.length === 0) {
@@ -54,7 +63,7 @@ export default function GlobeComponent() {
         polygonStrokeColor={() => "#111"}
         polygonLabel={({ properties: d }) => `
           <b>${d.NAME_LONG}</b> <br />
-          Coffee Import: <i>${d.coffee_imports["1990"]}</i> kg<br/>
+          Coffee Import: <i>${d[category][year]}</i> kg<br/>
         `}
         onPolygonHover={setHoverD}
         polygonsTransitionDuration={300}
