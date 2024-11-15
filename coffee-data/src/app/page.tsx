@@ -33,7 +33,7 @@ export default function Page() {
 
         <div className="flex justify-center items-center w-full mt-4">
           <div className="container w-96 h-96 overflow-hidden rounded-full flex justify-center items-center">
-            <GlobeComponent category="coffee_production" year="1990/91" />
+            <GlobeComponent category="coffee_production" year="2019/20" />
           </div>
         </div>
 

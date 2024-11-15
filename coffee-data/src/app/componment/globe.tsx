@@ -18,6 +18,12 @@ export default function GlobeComponent(props: GlobeComponent) {
   const category = props.category;
   const year = props.year;
 
+  const dynamicLabel = {
+    coffee_imports: "Import",
+    coffee_exports: "Export",
+    coffee_production: "Production",
+  };
+
   useEffect(() => {
     // load data from the local file in the public directory
     fetch("/data/coffee_data.geojson")
@@ -63,7 +69,7 @@ export default function GlobeComponent(props: GlobeComponent) {
         polygonStrokeColor={() => "#111"}
         polygonLabel={({ properties: d }) => `
           <b>${d.NAME_LONG}</b> <br />
-          Coffee Import: <i>${d[category][year]}</i> kg<br/>
+          Coffee ${dynamicLabel[category]}: <i>${d[category][year]}</i> kg<br/>
         `}
         onPolygonHover={setHoverD}
         polygonsTransitionDuration={300}
