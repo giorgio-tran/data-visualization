@@ -6,6 +6,9 @@ import MenuButton from "./componment/menuButton";
 import CountryList from "./componment/countryList";
 import InfoBox from "./componment/infoBox";
 import ActionButtons from "./componment/actionButtons";
+import PieChart from "./componment/pieChart";
+import {Bar} from "react-chartjs-2";
+import BarChart from "@/app/componment/barChart";
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,7 +29,7 @@ export default function Page() {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full h-[800px] overflow-hidden relative">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full h-[800px] overflow-hidden relative">
         <div className="mt-4 text-center">
           <h2 className="text-2xl font-semibold">Coffee Visualization</h2>
         </div>
@@ -49,7 +52,7 @@ export default function Page() {
             />
           )}
         </div>
-
+        <BarChart year={"1990"} type={"Import"}></BarChart>
         <ActionButtons />
       </div>
     </div>
