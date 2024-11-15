@@ -19,3 +19,15 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+#polygon-label-parent {
+  @apply relative text-white;
+}
+
+#polygon-label-background {
+  @apply absolute bg-black opacity-80 w-full h-full -z-10 rounded-lg border;
+}
+
+#polygon-label-text {
+  @apply p-4;
+}

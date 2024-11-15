@@ -11,6 +11,29 @@ type GlobeComponent = {
   year: string;
 };
 
+type PolygonLabel = {
+  category: "coffee_imports" | "coffee_exports" | "coffee_production";
+  country: string;
+  weight: string;
+};
+
+function PolygonLabel(props: PolygonLabel) {
+  const dynamicLabel = {
+    coffee_imports: "Import",
+    coffee_exports: "Export",
+    coffee_production: "Production",
+  };
+
+  return (
+    <div className="bg-black">
+      <b>{props.country}</b>
+      <div>
+        Coffee {dynamicLabel[props.category]}: {props.weight} kg
+      </div>
+    </div>
+  );
+}
+
 export default function GlobeComponent(props: GlobeComponent) {
   const [countries, setCountries] = useState({ features: [] });
   const [hoverD, setHoverD] = useState();
@@ -68,8 +91,13 @@ export default function GlobeComponent(props: GlobeComponent) {
         polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
         polygonStrokeColor={() => "#111"}
         polygonLabel={({ properties: d }) => `
-          <b>${d.NAME_LONG}</b> <br />
-          Coffee ${dynamicLabel[category]}: <i>${d[category][year]}</i> kg<br/>
+          <div id="polygon-label-parent">
+            <div id="polygon-label-background"></div>
+            <div id="polygon-label-text">
+              <b>${d.NAME_LONG}</b> <br />
+              Coffee ${dynamicLabel[category]}: <i>${d[category][year]}</i> kg<br/>
+            </div>
+          </div>
         `}
         onPolygonHover={setHoverD}
         polygonsTransitionDuration={300}
