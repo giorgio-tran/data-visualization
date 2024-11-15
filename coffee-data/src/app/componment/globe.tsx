@@ -12,16 +12,21 @@ export default function GlobeComponent() {
 
   useEffect(() => {
     // load data from the local file in the public directory
-    fetch("/data/ne_110m_admin_0_countries.geojson")
+    fetch("/data/coffee_data.geojson")
       .then((res) => res.json())
-      .then(setCountries);
+      .then((countries) => {
+        setCountries({
+          features: countries.features.filter(
+            (item) => item.properties.coffee_imports
+          ),
+        });
+      });
   }, []);
 
   const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
 
   // Calculate GDP per capita (avoiding countries with small populations)
-  const getVal = (feat) =>
-    feat.properties.GDP_MD_EST / Math.max(1e5, feat.properties.POP_EST);
+  const getVal = (feat) => feat["properties"]["coffee_imports"]["1990"];
 
   // Find the max value to scale the color range
   const maxVal = useMemo(
@@ -30,7 +35,9 @@ export default function GlobeComponent() {
   );
   colorScale.domain([0, maxVal]);
 
-  console.log(countries.features.filter((d) => d.properties.ISO_A2 !== "AQ"))
+  if (countries.features.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -38,19 +45,16 @@ export default function GlobeComponent() {
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}
-        polygonsData={countries.features.filter(
-          (d) => d.properties.ISO_A2 !== "AQ"
-        )}
-        polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.06)}
+        polygonsData={countries.features}
+        polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
         polygonCapColor={(d) =>
           d === hoverD ? "steelblue" : colorScale(getVal(d))
         }
         polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
         polygonStrokeColor={() => "#111"}
         polygonLabel={({ properties: d }) => `
-          <b>${d.ADMIN} (${d.ISO_A2}):</b> <br />
-          GDP: <i>${d.GDP_MD_EST}</i> M$<br/>
-          Population: <i>${d.POP_EST}</i>
+          <b>${d.NAME_LONG}</b> <br />
+          Coffee Import: <i>${d.coffee_imports["1990"]}</i> kg<br/>
         `}
         onPolygonHover={setHoverD}
         polygonsTransitionDuration={300}
