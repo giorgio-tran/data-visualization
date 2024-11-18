@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import React, {useState, useEffect} from 'react';
+import {Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale} from 'chart.js';
+import {Bar} from 'react-chartjs-2';
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
@@ -21,7 +21,7 @@ const generateColors = (numColors: number): string[] => {
     return colors;
 };
 
-const BarChart = ({ year, type} : {year: string, type: string}) => {
+const BarChart = ({year, type}: { year: string, type: string }) => {
     const [countries, setCountries] = useState<Country[]>([]);
 
     let url = "";
@@ -50,13 +50,14 @@ const BarChart = ({ year, type} : {year: string, type: string}) => {
         fetch(url)
             .then((res) => res.json())
             .then((items) => {
-                const filteredData: Country[] = items.map((item: any) => {
-                    const dataInYear = item[year];
-                    return {
-                        country: item.Country,
-                        dataInYear: dataInYear,
-                    };
-                });
+                const filteredData: Country[] = items
+                    .filter((item: any) => item[year] > 0)
+                    .map((item: any) => {
+                        return {
+                            country: item.Country,
+                            dataInYear: item[year],
+                        };
+                    });
                 setCountries(filteredData);
                 console.log(filteredData);
             })
@@ -65,11 +66,17 @@ const BarChart = ({ year, type} : {year: string, type: string}) => {
 
     const options = {
         responsive: true,
+        indexAxis: 'y',
         scales: {
             x: {
                 beginAtZero: true,
                 grid: {
                     display: false, // Hides the grid on the x-axis
+                },
+                ticks: {
+                    callback: function (value: string | number) {
+                        return value.toLocaleString();
+                    },
                 },
             },
             y: {
@@ -78,18 +85,15 @@ const BarChart = ({ year, type} : {year: string, type: string}) => {
                     display: false, // Hides the grid on the y-axis
                 },
                 ticks: {
-                    callback: function (value: string | number) {
-                        return value.toLocaleString();
-                    },
+                    padding: 10,
+                    autoSkip: true,
                 },
             },
         },
     };
 
     return (
-        <div className="w-full h-[400px]">
-            <Bar data={data} options={options} />
-        </div>
+        <Bar data={data} options={options}/>
     );
 };
 

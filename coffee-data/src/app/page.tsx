@@ -6,6 +6,7 @@ import ActionButtons from './componment/actionButtons';
 import BarChart from './componment/barChart';
 import Heading from './componment/heading';
 import CountryDropdown from './componment/countryDropdown';
+import LineChart from "@/app/componment/lineChart";
 
 const MainPage = () => {
   const [category, setCategory] = useState<'coffee_imports' | 'coffee_exports' | 'coffee_production'>('coffee_imports');
@@ -16,7 +17,14 @@ const MainPage = () => {
       <CountryDropdown category={category} year="2019" />
       <GlobeComponent category={category} year="2019" />
       <ActionButtons onCategoryChange={setCategory} />
-      <BarChart year="1990" type="Import" />
+      <div className="flex justify-between">
+          <div className="w-3/5">
+          <BarChart year="1990" type="Import" />
+          </div>
+          <div className="w-2/5">
+          <LineChart country="Austria" type="Import"></LineChart>
+          </div>
+      </div>
     </div>
   );
 };
