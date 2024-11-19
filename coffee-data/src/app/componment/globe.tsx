@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import * as d3 from "d3";
 
@@ -63,17 +63,20 @@ export default function GlobeComponent(props: GlobeComponent) {
   const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
 
   // Calculate GDP per capita (avoiding countries with small populations)
-  const getVal = (feat) => feat["properties"][category][year];
+  const getVal = useCallback(
+    (feat: any) => feat["properties"][category]?.[year],
+    [category, year]
+  );
 
   // Find the max value to scale the color range
   const maxVal = useMemo(
     () => Math.max(...countries.features.map(getVal)),
-    [countries]
+    [countries, getVal]
   );
 
   colorScale.domain([0, maxVal]);
 
-  if (countries.features.length === 0) {
+  if (countries.features.length === 0 && !category && !year) {
     return <div>Loading...</div>;
   }
 
