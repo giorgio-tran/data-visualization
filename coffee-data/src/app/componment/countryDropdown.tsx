@@ -1,26 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { CoffeeDataFeature } from "../types/coffee_data";
 
 type CountryDropdownProps = {
-  category: 'coffee_imports' | 'coffee_exports' | 'coffee_production';
+  category: "coffee_imports" | "coffee_exports" | "coffee_production";
   year: string;
 };
 
 const CountryDropdown = ({ category, year }: CountryDropdownProps) => {
   const [countries, setCountries] = useState<string[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
-    fetch('/data/coffee_data.geojson')
+    fetch("/data/coffee_data.geojson")
       .then((res) => res.json())
       .then((data) => {
         const filteredCountries = data.features
-          .filter((item: any) => item.properties[category]?.[year])
-          .map((item: any) => item.properties.NAME_LONG);
+          .filter(
+            (item: CoffeeDataFeature) => item.properties[category]?.[year]
+          )
+          .map((item: CoffeeDataFeature) => item.properties.NAME_LONG);
 
         setCountries(filteredCountries);
-        setSelectedCountry(filteredCountries[0] || '');
+        setSelectedCountry(filteredCountries[0] || "");
       });
   }, [category, year]);
 
@@ -31,8 +34,11 @@ const CountryDropdown = ({ category, year }: CountryDropdownProps) => {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-        Select a Country ({category.replace('coffee_', '').toUpperCase()})
+      <label
+        htmlFor="country"
+        className="block text-sm font-medium text-gray-700"
+      >
+        Select a Country ({category.replace("coffee_", "").toUpperCase()})
       </label>
       <select
         id="country"
@@ -48,7 +54,8 @@ const CountryDropdown = ({ category, year }: CountryDropdownProps) => {
       </select>
       {selectedCountry && (
         <p className="mt-2 text-sm text-gray-600">
-          Selected Country: <span className="font-medium">{selectedCountry}</span>
+          Selected Country:{" "}
+          <span className="font-medium">{selectedCountry}</span>
         </p>
       )}
     </div>
