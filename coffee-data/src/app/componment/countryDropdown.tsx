@@ -46,7 +46,7 @@ const CountryDropdown = ({
     <div className="w-full max-w-sm mx-auto relative">
       <label
         htmlFor="country"
-        className="block text-base font-medium text-white mb-2"
+        className="block text-sm font-medium text-white mb-2"
       >
         Select a Country ({category.replace("coffee_", "").toUpperCase()})
       </label>
@@ -54,7 +54,7 @@ const CountryDropdown = ({
       <input
         type="text"
         id="country"
-        className="mt-1 block w-full p-4 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg bg-black/70 text-white"
+        className="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base bg-black/70 text-white"
         placeholder="Search for a country..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -63,9 +63,9 @@ const CountryDropdown = ({
       />
 
       {isDropdownVisible && (
-        <div className="absolute bottom-full mb-2 w-full bg-black/70 border border-gray-800 rounded-md shadow-lg z-10">
+        <div className="absolute bottom-full mt-2 w-full bg-black/70 border border-gray-800 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
           <select
-            className="w-full p-3 text-white bg-black/70 border-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg"
+            className="w-full p-2 text-white bg-black/70 border-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
             value={selectedCountry}
             onChange={handleChange}
             size={5}
@@ -77,7 +77,7 @@ const CountryDropdown = ({
               <option
                 key={country.properties.NAME_LONG}
                 value={country.properties.NAME_LONG}
-                className="py-3"
+                className="py-2"
               >
                 {country.properties.NAME_LONG}
               </option>
