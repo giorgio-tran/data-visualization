@@ -54,7 +54,7 @@ export default function GlobeComponent(props: GlobeComponentProps) {
       });
   }, [category]);
 
-  const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrRd);
+  const colorScale = d3.scaleSequentialSqrt(d3.interpolateYlOrBr);
 
   const getVal = useCallback(
     (feat: CoffeeDataFeature) => {

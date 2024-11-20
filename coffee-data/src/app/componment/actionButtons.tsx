@@ -6,26 +6,36 @@ type ActionButtonsProps = {
   onCategoryChange: (
     category: "coffee_imports" | "coffee_exports" | "coffee_production"
   ) => void;
+  category: "coffee_imports" | "coffee_exports" | "coffee_production";
 };
 
-const ActionButtons: React.FC<ActionButtonsProps> = ({ onCategoryChange }) => {
+const ActionButtons: React.FC<ActionButtonsProps> = ({
+  onCategoryChange,
+  category,
+}) => {
   return (
     <div className="mt-6 flex justify-center card">
       <button
         onClick={() => onCategoryChange("coffee_imports")}
-        className="bg-black/70 backdrop-blur-xl text-white px-4 py-2 rounded-l-lg  w-24 border border-gray-800 hover:bg-slate-800"
+        className={`${
+          category === "coffee_imports" ? "bg-transparent" : "bg-black/80"
+        } focus:bg-transparent backdrop-blur-xl text-white px-4 py-2 rounded-l-lg  w-24 border border-gray-800 hover:bg-black/50`}
       >
         Import
       </button>
       <button
         onClick={() => onCategoryChange("coffee_exports")}
-        className="bg-black/70 backdrop-blur-xl text-white px-4 py-2 hover:bg-slate-800 w-24 border border-r-0  border-l-0 border-t-gray-800 border-b-gray-800"
+        className={`${
+          category === "coffee_exports" ? "bg-transparent" : "bg-black/80"
+        } focus:bg-transparent backdrop-blur-xl text-white px-4 py-2 hover:bg-black/50 w-24 border border-r-0  border-l-0 border-t-gray-800 border-b-gray-800`}
       >
         Export
       </button>
       <button
         onClick={() => onCategoryChange("coffee_production")}
-        className="bg-black/70 backdrop-blur-xl text-white px-4 py-2 rounded-r-lg w-24 border border-gray-800 hover:bg-slate-800"
+        className={`${
+          category === "coffee_production" ? "bg-transparent" : "bg-black/80"
+        } focus:bg-transparent ease-in backdrop-blur-xl text-white px-4 py-2 rounded-r-lg w-24 border border-gray-800 hover:bg-slate-800`}
       >
         Produced
       </button>

@@ -50,7 +50,7 @@ const MainPage = () => {
       </div>
       <GlobeComponent category={category} year="2019" countries={countries} />
       <div className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 m-4">
-        <ActionButtons onCategoryChange={setCategory} />
+        <ActionButtons onCategoryChange={setCategory} category={category} />
       </div>
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl border border-gray-800">

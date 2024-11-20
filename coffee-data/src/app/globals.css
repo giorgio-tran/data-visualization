@@ -44,7 +44,7 @@ body {
 .chart-glow {
   position: relative; /* for absolute positioning pseudoelements */
   width: fit-content;
-  background-color: rgb(24, 24, 24);
+  /* background-color: rgb(24, 24, 24); */
   border-radius: 0.5rem;
 }
 
@@ -63,7 +63,7 @@ body {
     var(--clr-3)
   );
   border-radius: inherit;
-  animation: rotation 1.2s linear infinite;
+  animation: rotation 5s linear infinite;
 }
 
 .card::after {
