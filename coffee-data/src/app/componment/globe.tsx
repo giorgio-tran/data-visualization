@@ -10,6 +10,7 @@ const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
 type GlobeComponent = {
   category: "coffee_imports" | "coffee_exports" | "coffee_production";
   year: string;
+  countries: Partial<CoffeeDataFeatures>;
 };
 
 export default function GlobeComponent(props: GlobeComponent) {
@@ -61,8 +62,8 @@ export default function GlobeComponent(props: GlobeComponent) {
   }
 
   return (
-    <div className="flex justify-center items-center w-full mt-4">
-      <div className="container w-full max-w-2xl h-full max-h-[600px] overflow-hidden flex justify-center items-center">
+    <div className="w-full h-full">
+      <div className="w-full h-full overflow-hidden">
         <Globe
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
           backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"

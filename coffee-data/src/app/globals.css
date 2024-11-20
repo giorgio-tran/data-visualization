@@ -5,6 +5,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --clr-1: #d391fa;
+  --clr-2: #c364fa;
+  --clr-3: #a230ed;
+  --clr-4: #6b00d7;
+  --clr-5: #3e00b3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,10 +19,73 @@
   }
 }
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.card,
+.chart-glow {
+  position: relative; /* for absolute positioning pseudoelements */
+  width: fit-content;
+  background-color: rgb(24, 24, 24);
+  border-radius: 0.5rem;
+}
+
+.card::before,
+.card::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  inset: -0.05rem; /* top bottom left right is 0 */
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-4),
+    var(--clr-3)
+  );
+  border-radius: inherit;
+  animation: rotation 1.2s linear infinite;
+}
+
+.card::after {
+  filter: blur(1rem);
+}
+
+.chart-glow::before,
+.chart-glow::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  inset: -0.05rem; /* top bottom left right is 0 */
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-4),
+    var(--clr-3)
+  );
+  border-radius: inherit;
+  /* animation: rotation 1.2s linear infinite; */
 }
 
 #polygon-label-parent {
