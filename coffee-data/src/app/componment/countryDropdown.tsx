@@ -1,10 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   CoffeeDataFeature,
-  CoffeeDataFeatures,
-  CoffeeLogistics,
 } from "../types/coffee_data";
 
 type CountryDropdownProps = {

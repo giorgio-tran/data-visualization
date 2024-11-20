@@ -17,7 +17,9 @@ const MainPage = () => {
     features: [],
   });
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [year, setYear] = useState<string>("2019");
+
+  // const [year, setYear] = useState<string>("2019");
+  const year = "2019"; // here for now to deploy
 
   useEffect(() => {
     // load data from the local file in the public directory
@@ -31,8 +33,6 @@ const MainPage = () => {
         });
       });
   }, [category, year]);
-
-  console.log("countries", countries);
 
   return (
     <div className="w-full h-screen">
