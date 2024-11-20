@@ -15,7 +15,7 @@ type GlobeComponentProps = {
 };
 
 const standardizeYear = (year: string): string => {
-  const match = year.match(/^(\d{4})/); 
+  const match = year.match(/^(\d{4})/);
   return match ? match[1] : year;
 };
 
@@ -114,7 +114,9 @@ export default function GlobeComponent(props: GlobeComponentProps) {
                 <div id="polygon-label-background"></div>
                 <div id="polygon-label-text">
                   <b>${data.properties.NAME_LONG}</b> <br />
-                  Coffee ${dynamicLabel[category]}: <i>${getVal(data)}</i> kg<br/>
+                  Coffee ${dynamicLabel[category]}: <i>${getVal(
+              data
+            )}</i> kg<br/>
                   ${
                     category === "coffee_production"
                       ? `Coffee Type: <i>${coffeeType}</i><br/>`
