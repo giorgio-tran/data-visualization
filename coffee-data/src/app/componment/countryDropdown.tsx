@@ -43,7 +43,7 @@ const CountryDropdown = ({
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto relative">
+    <div className="w-full max-w-sm relative">
       <label
         htmlFor="country"
         className="block text-sm font-medium text-white mb-2"

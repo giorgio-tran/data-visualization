@@ -8,6 +8,7 @@ import Heading from "./componment/heading";
 import CountryDropdown from "./componment/countryDropdown";
 import LineChart from "@/app/componment/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
+import { dynamicLabel } from "./constants/constants";
 
 const MainPage = () => {
   const [category, setCategory] = useState<
@@ -18,8 +19,8 @@ const MainPage = () => {
   });
   const [selectedCountry, setSelectedCountry] = useState<string>("");
 
-  // const [year, setYear] = useState<string>("2019");
-  const year = "2019"; // here for now to deploy
+  const [year, setYear] = useState<string>("2019");
+  // const year = "2019"; // here for now to deploy
 
   useEffect(() => {
     // load data from the local file in the public directory
@@ -40,21 +41,43 @@ const MainPage = () => {
         <Heading title="Coffee Dataset Visualization" />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
-        <CountryDropdown
-          category={category}
-          year="2019"
-          setSelectedCountry={setSelectedCountry}
-          selectedCountry={selectedCountry}
-          countries={countries.features as CoffeeDataFeature[]}
-        />
+        <div>
+          <CountryDropdown
+            category={category}
+            year="2019"
+            setSelectedCountry={setSelectedCountry}
+            selectedCountry={selectedCountry}
+            countries={countries.features as CoffeeDataFeature[]}
+          />
+          <div className="w-[400px]">
+            <div className="flex justify-between">
+              <span className="-translate-x-1/2">1990</span>
+              <span className="translate-x-1/2">2019</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="29"
+              step="1"
+              className="cursor-pointer w-full accent-purple-700"
+              onChange={(e) => {
+                setYear((parseInt(e.target.value) + 1990).toString());
+              }}
+              value={(parseInt(year) - 1990).toString()}
+            />
+            <div className="self-center">
+              <span className="font-bold">Year: {year}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <GlobeComponent category={category} year="2019" countries={countries} />
+      <GlobeComponent category={category} year={year} countries={countries} />
       <div className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 m-4">
         <ActionButtons onCategoryChange={setCategory} category={category} />
       </div>
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl border border-gray-800">
-          <BarChart year="1990" type="Import" />
+          <BarChart year={year} type={dynamicLabel[category]} />
         </div>
         <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
           <LineChart country="Austria" type="Import"></LineChart>
