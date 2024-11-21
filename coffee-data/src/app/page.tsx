@@ -49,7 +49,7 @@ const MainPage = () => {
             selectedCountry={selectedCountry}
             countries={countries.features as CoffeeDataFeature[]}
           />
-          <div className="w-[400px]">
+          <div className="w-[300px]">
             <div className="flex justify-between">
               <span className="-translate-x-1/2">1990</span>
               <span className="translate-x-1/2">2019</span>
@@ -67,6 +67,12 @@ const MainPage = () => {
             />
             <div className="self-center">
               <span className="font-bold">Year: {year}</span>
+            </div>
+            <div className="m-4">
+              <ActionButtons
+                onCategoryChange={setCategory}
+                category={category}
+              />
             </div>
           </div>
         </div>

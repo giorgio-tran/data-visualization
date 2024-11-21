@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import * as d3 from "d3";
 import { CoffeeDataFeature, CoffeeDataFeatures } from "../types/coffee_data";
@@ -34,6 +34,23 @@ export default function GlobeComponent(props: GlobeComponentProps) {
   const [hoverD, setHoverD] = useState<object | null>();
 
   const { category, year } = props;
+
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (parentRef.current) {
+        setWidth(parentRef.current.offsetWidth);
+        setHeight(parentRef.current.offsetHeight);
+      }
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  });
 
   const dynamicLabel = {
     coffee_imports: "Import",
@@ -86,37 +103,40 @@ export default function GlobeComponent(props: GlobeComponentProps) {
   }
 
   return (
-    <div className="w-full h-full">
-      <div className="w-full h-full overflow-hidden">
-        <Globe
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-          backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-          lineHoverPrecision={0}
-          polygonsData={countries.features}
-          polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
-          polygonCapColor={(d) =>
-            d === hoverD
-              ? "steelblue"
-              : colorScale(getVal(d as CoffeeDataFeature))
-          }
-          polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
-          polygonStrokeColor={() => "#111"}
-          polygonLabel={(d: object) => {
-            const data = d as CoffeeDataFeature; // Assert that `d` is `CoffeeDataFeature`
+    <div className="w-full h-full overflow-hidden" ref={parentRef}>
+      <Globe
+        width={width}
+        height={height}
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+        backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+        lineHoverPrecision={0}
+        polygonsData={countries.features}
+        polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
+        polygonCapColor={(d) =>
+          d === hoverD
+            ? "steelblue"
+            : colorScale(getVal(d as CoffeeDataFeature))
+        }
+        polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
+        polygonStrokeColor={() => "#111"}
+        polygonLabel={(d: object) => {
+          const data = d as CoffeeDataFeature; // Assert that `d` is `CoffeeDataFeature`
 
-            const coffeeType =
-              category === "coffee_production"
-                ? data.properties[category]?.["Coffee type"] || "Unknown"
-                : "";
+          const coffeeType =
+            category === "coffee_production"
+              ? data.properties[category]?.["Coffee type"] || "Unknown"
+              : "";
 
-            return `
+          return `
               <div id="polygon-label-parent">
                 <div id="polygon-label-background"></div>
                 <div id="polygon-label-text">
                   <b>${data.properties.NAME_LONG}</b> <br />
-                  Coffee ${dynamicLabel[category]}: <i>${getVal(
-              data
-            )}</i> kg<br/>
+                  Coffee ${dynamicLabel[category]}: ${(
+            getVal(data) / 1000
+          ).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+          })} Metric Tons<br/>
                   ${
                     category === "coffee_production"
                       ? `Coffee Type: <i>${coffeeType}</i><br/>`
@@ -125,11 +145,10 @@ export default function GlobeComponent(props: GlobeComponentProps) {
                 </div>
               </div>
             `;
-          }}
-          onPolygonHover={setHoverD}
-          polygonsTransitionDuration={300}
-        />
-      </div>
+        }}
+        onPolygonHover={setHoverD}
+        polygonsTransitionDuration={300}
+      />
     </div>
   );
 }
