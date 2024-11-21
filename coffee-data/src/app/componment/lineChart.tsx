@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,8 +9,9 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
+  ChartData,
 } from "chart.js";
-import { CoffeeDataFeature, CoffeeLogistics } from "../types/coffee_data";
+import { CoffeeDataFeature } from "../types/coffee_data";
 
 ChartJS.register(
   CategoryScale,
@@ -23,15 +23,14 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({
-  country,
-  type,
-  countries,
-}: {
+type LineChartProps = {
   country: string;
   type: "coffee_imports" | "coffee_exports" | "coffee_production";
   countries: CoffeeDataFeature[];
-}) => {
+  year: string;
+};
+
+const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   // let url = "";
   // if (type === "Import") {
   //   url = "/data/Coffee_import.json";
@@ -65,20 +64,22 @@ const LineChart = ({
     (d) => d.properties.NAME_LONG === country
   )[0]?.properties[type];
 
-  const years = Object.keys(filteredCountry)?.filter(
-    (d) =>
-      d !== "Country" &&
-      d !== "Total_import" &&
-      d !== "Total_export" &&
-      d !== "Total_production"
-  );
+  const years = filteredCountry
+    ? Object.keys(filteredCountry).filter(
+        (d) =>
+          d !== "Country" &&
+          d !== "Total_import" &&
+          d !== "Total_export" &&
+          d !== "Total_production"
+      )
+    : null;
 
   const data = {
     labels: years,
     datasets: [
       {
         label: `Coffee ${type} Data for ${country}`,
-        data: years.map((year) => {
+        data: years?.map((year) => {
           if (parseFloat(filteredCountry[year]) < 0) {
             return null;
           }
@@ -86,12 +87,18 @@ const LineChart = ({
         }),
         fill: false,
         borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
         pointRadius: 5,
-        pointBackgroundColor: "rgb(75, 192, 192)",
+        // pointBackgroundColor: "rgb(75, 192, 192)",
       },
     ],
   };
+
+  function specialYearColor(ctx: any) {
+    console.log("ctx", ctx);
+    const index = ctx.dataIndex;
+    console.log("index", years?.[index]);
+    return years?.[index] === year ? "red" : "rgb(75, 192, 192)";
+  }
 
   const options: ChartOptions<"line"> = {
     responsive: true,
@@ -103,6 +110,12 @@ const LineChart = ({
       tooltip: {
         mode: "index",
         intersect: false,
+      },
+    },
+    elements: {
+      point: {
+        backgroundColor: specialYearColor,
+        borderColor: specialYearColor,
       },
     },
     scales: {
@@ -128,7 +141,15 @@ const LineChart = ({
     },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    filteredCountry && (
+      <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
+        <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
+          <Line data={data as ChartData<"line">} options={options} />
+        </div>
+      </div>
+    )
+  );
 };
 
 export default LineChart;

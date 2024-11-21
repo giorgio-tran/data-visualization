@@ -85,15 +85,12 @@ const MainPage = () => {
       </div>
 
       {selectedCountry && (
-        <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
-            <LineChart
-              countries={countries.features as CoffeeDataFeature[]}
-              country={selectedCountry}
-              type={category}
-            ></LineChart>
-          </div>
-        </div>
+        <LineChart
+          countries={countries.features as CoffeeDataFeature[]}
+          country={selectedCountry}
+          type={category}
+          year={year}
+        ></LineChart>
       )}
     </div>
   );
