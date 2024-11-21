@@ -43,7 +43,7 @@ body {
 .card,
 .chart-glow {
   position: relative; /* for absolute positioning pseudoelements */
-  width: fit-content;
+  /* width: fit-content; */
   /* background-color: rgb(24, 24, 24); */
   border-radius: 0.5rem;
 }

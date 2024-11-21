@@ -11,7 +11,7 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
-import { CoffeeLogistics } from "../types/coffee_data";
+import { CoffeeDataFeature, CoffeeLogistics } from "../types/coffee_data";
 
 ChartJS.register(
   CategoryScale,
@@ -23,48 +23,67 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({ country, type }: { country: string; type: string }) => {
-  const [chartData, setChartData] = useState<CoffeeLogistics | null>(null);
-  const [years, setYears] = useState<string[]>([]);
-  const Country = "Austria";
-  let url = "";
-  if (type === "Import") {
-    url = "/data/Coffee_import.json";
-  } else if (type === "Export") {
-    url = "/data/coffee_export.json";
-  } else {
-    url = "/data/Coffee_production.json";
-  }
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((items: CoffeeLogistics[]) => {
-        const data = items.find(
-          (item: CoffeeLogistics) => item.Country.trim() === country
-        );
-        if (data) {
-          setChartData(data);
-          // Get the list of years (keys) excluding 'Country' and 'Total_import'
-          const yearsList = Object.keys(data).filter(
-            (key) => key !== "Country" && key !== "Total_import"
-          );
-          setYears(yearsList);
-        } else {
-          console.error(`Country "${Country}" not found in the data.`);
-        }
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [country, url]);
+const LineChart = ({
+  country,
+  type,
+  countries,
+}: {
+  country: string;
+  type: "coffee_imports" | "coffee_exports" | "coffee_production";
+  countries: CoffeeDataFeature[];
+}) => {
+  // let url = "";
+  // if (type === "Import") {
+  //   url = "/data/Coffee_import.json";
+  // } else if (type === "Export") {
+  //   url = "/data/coffee_export.json";
+  // } else {
+  //   url = "/data/Coffee_production.json";
+  // }
+  // useEffect(() => {
+  //   fetch(url)
+  //     .then((res) => res.json())
+  //     .then((items: CoffeeLogistics[]) => {
+  //       const data = items.find(
+  //         (item: CoffeeLogistics) => item.Country.trim() === country
+  //       );
+  //       if (data) {
+  //         setChartData(data);
+  //         // Get the list of years (keys) excluding 'Country' and 'Total_import'
+  //         const yearsList = Object.keys(data).filter(
+  //           (key) => key !== "Country" && key !== "Total_import"
+  //         );
+  //         setYears(yearsList);
+  //       } else {
+  //         console.error(`Country "${country}" not found in the data.`);
+  //       }
+  //     })
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, [country, url, type]);
 
-  if (!chartData) {
-    return <div>Loading...</div>;
-  }
+  const filteredCountry = countries?.filter(
+    (d) => d.properties.NAME_LONG === country
+  )[0]?.properties[type];
+
+  const years = Object.keys(filteredCountry)?.filter(
+    (d) =>
+      d !== "Country" &&
+      d !== "Total_import" &&
+      d !== "Total_export" &&
+      d !== "Total_production"
+  );
+
   const data = {
     labels: years,
     datasets: [
       {
         label: `Coffee ${type} Data for ${country}`,
-        data: years.map((year) => parseInt(chartData[year])),
+        data: years.map((year) => {
+          if (parseFloat(filteredCountry[year]) < 0) {
+            return null;
+          }
+          return parseFloat(filteredCountry[year]);
+        }),
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,

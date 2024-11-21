@@ -51,8 +51,8 @@ const MainPage = () => {
           />
           <div className="w-[300px]">
             <div className="flex justify-between">
-              <span className="-translate-x-1/2">1990</span>
-              <span className="translate-x-1/2">2019</span>
+              <span>1990</span>
+              <span>2019</span>
             </div>
             <input
               type="range"
@@ -68,7 +68,7 @@ const MainPage = () => {
             <div className="self-center">
               <span className="font-bold">Year: {year}</span>
             </div>
-            <div className="m-4">
+            <div className="w-full">
               <ActionButtons
                 onCategoryChange={setCategory}
                 category={category}
@@ -78,17 +78,23 @@ const MainPage = () => {
         </div>
       </div>
       <GlobeComponent category={category} year={year} countries={countries} />
-      <div className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 m-4">
-        <ActionButtons onCategoryChange={setCategory} category={category} />
-      </div>
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl border border-gray-800">
           <BarChart year={year} type={dynamicLabel[category]} />
         </div>
-        <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
-          <LineChart country="Austria" type="Import"></LineChart>
-        </div>
       </div>
+
+      {selectedCountry && (
+        <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
+          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
+            <LineChart
+              countries={countries.features as CoffeeDataFeature[]}
+              country={selectedCountry}
+              type={category}
+            ></LineChart>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
