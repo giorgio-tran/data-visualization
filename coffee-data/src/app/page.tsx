@@ -37,7 +37,7 @@ const MainPage = () => {
 
   return (
     <div className="w-full h-screen">
-      <div className="absolute z-10 top-0 m-4">
+      <div className="absolute z-10 top-0 m-4 text-white">
         <Heading title="Coffee Dataset Visualization" />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
@@ -49,7 +49,7 @@ const MainPage = () => {
             countries={countries.features as CoffeeDataFeature[]}
           />
           <div className="w-[300px] text-sm">
-            <div className="flex justify-between">
+            <div className="flex justify-between text-white">
               <span>1990</span>
               <span>2019</span>
             </div>
@@ -65,7 +65,7 @@ const MainPage = () => {
               value={(parseInt(year) - 1990).toString()}
             />
             <div className="self-center">
-              <span className="font-bold">Year: {year}</span>
+              <span className="font-bold text-white">Year: {year}</span>
             </div>
           </div>
           <div className="w-full">
