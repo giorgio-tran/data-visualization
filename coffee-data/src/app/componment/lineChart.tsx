@@ -10,6 +10,7 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  ScriptableContext,
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
 
@@ -86,18 +87,23 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
           return parseFloat(filteredCountry[year]);
         }),
         fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        pointRadius: 5,
+        borderColor: "#7e22ce",
+        // pointRadius: 5,
         // pointBackgroundColor: "rgb(75, 192, 192)",
       },
     ],
   };
 
-  function specialYearColor(ctx: any) {
+  function specialYearColor(ctx: ScriptableContext<"line">) {
     console.log("ctx", ctx);
     const index = ctx.dataIndex;
     console.log("index", years?.[index]);
-    return years?.[index] === year ? "red" : "rgb(75, 192, 192)";
+    return years?.[index] === year ? "yellow" : "#7e22ce";
+  }
+
+  function specialYearRadius(ctx: ScriptableContext<"line">) {
+    const index = ctx.dataIndex;
+    return years?.[index] === year ? 5 : 3;
   }
 
   const options: ChartOptions<"line"> = {
@@ -116,6 +122,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       point: {
         backgroundColor: specialYearColor,
         borderColor: specialYearColor,
+        radius: specialYearRadius,
       },
     },
     scales: {

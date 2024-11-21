@@ -5,7 +5,6 @@ import { CoffeeDataFeature } from "../types/coffee_data";
 
 type CountryDropdownProps = {
   category: "coffee_imports" | "coffee_exports" | "coffee_production";
-  year: string;
   setSelectedCountry: (country: string) => void;
   selectedCountry: string;
   countries: CoffeeDataFeature[];

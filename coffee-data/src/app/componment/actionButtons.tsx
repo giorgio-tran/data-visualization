@@ -14,7 +14,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   category,
 }) => {
   return (
-    <div className="mt-6 flex justify-center card w-full">
+    <div className="flex justify-center card w-full text-sm">
       <button
         onClick={() => onCategoryChange("coffee_imports")}
         className={`${

@@ -41,15 +41,14 @@ const MainPage = () => {
         <Heading title="Coffee Dataset Visualization" />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
-        <div>
+        <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
           <CountryDropdown
             category={category}
-            year="2019"
             setSelectedCountry={setSelectedCountry}
             selectedCountry={selectedCountry}
             countries={countries.features as CoffeeDataFeature[]}
           />
-          <div className="w-[300px]">
+          <div className="w-[300px] text-sm">
             <div className="flex justify-between">
               <span>1990</span>
               <span>2019</span>
@@ -68,18 +67,15 @@ const MainPage = () => {
             <div className="self-center">
               <span className="font-bold">Year: {year}</span>
             </div>
-            <div className="w-full">
-              <ActionButtons
-                onCategoryChange={setCategory}
-                category={category}
-              />
-            </div>
+          </div>
+          <div className="w-full">
+            <ActionButtons onCategoryChange={setCategory} category={category} />
           </div>
         </div>
       </div>
       <GlobeComponent category={category} year={year} countries={countries} />
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
-        <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl border border-gray-800">
+        <div className="w-[500px] h-[300px] bg-black/70 backdrop-blur-lg rounded-xl border border-gray-800">
           <BarChart year={year} type={dynamicLabel[category]} />
         </div>
       </div>
