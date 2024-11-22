@@ -9,7 +9,7 @@ import CountryDropdown from "./componment/countryDropdown";
 import LineChart from "@/app/componment/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
 import { dynamicLabel } from "./constants/constants";
-import {Slider} from "@nextui-org/slider";
+import { Slider } from "@nextui-org/slider";
 
 const MainPage = () => {
   const [category, setCategory] = useState<
@@ -39,7 +39,10 @@ const MainPage = () => {
   return (
     <div className="w-full h-screen">
       <div className="absolute z-10 top-0 m-4 text-white">
-        <Heading title="Coffee Dataset Visualization" />
+        <div className="flex flex-col text-5xl font-bold gap-4">
+          <div>A History of Coffee</div>
+          <div className="text-4xl">From 1990 to 2019</div>
+        </div>
       </div>
       <div className="absolute z-10 m-4 bottom-0">
         <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
@@ -49,51 +52,51 @@ const MainPage = () => {
             selectedCountry={selectedCountry}
             countries={countries.features as CoffeeDataFeature[]}
           />
-            <Slider
-                label="Select a Year:"
-                step={1}
-                maxValue={2019}
-                minValue={1990}
-                defaultValue={2019}
-                showSteps={true}
-                showTooltip={true}
-                showOutline={true}
-                disableThumbScale={true}
-                formatOptions={{ useGrouping: false }}
-                tooltipValueFormatOptions={{ useGrouping: false }}
-                onChange={(value) => {
-                    setYear(value.toString());
-                    console.log(year)
-                }}
-                classNames={{
-                    base: "max-w-md",
-                    filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
-                    labelWrapper: "mb-2",
-                    label: "font-medium text-default-700 text-medium text-white",
-                    value: "font-medium text-default-500 text-small text-white",
-                    thumb: [
-                        "transition-size",
-                        "bg-gradient-to-r from-secondary-400 to-primary-500",
-                        "data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20",
-                        "data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6"
-                    ],
-                    step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50"
-                }}
-                tooltipProps={{
-                    offset: 10,
-                    placement: "bottom",
-                    classNames: {
-                        base: [
-                            // arrow color
-                            "before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500",
-                        ],
-                        content: [
-                            "py-2 shadow-xl",
-                            "text-white bg-gradient-to-r from-secondary-400 to-primary-500",
-                        ],
-                    },
-                }}
-            />
+          <Slider
+            label="Select a Year:"
+            step={1}
+            maxValue={2019}
+            minValue={1990}
+            defaultValue={2019}
+            showSteps={true}
+            showTooltip={true}
+            showOutline={true}
+            disableThumbScale={true}
+            formatOptions={{ useGrouping: false }}
+            tooltipValueFormatOptions={{ useGrouping: false }}
+            onChange={(value) => {
+              setYear(value.toString());
+              console.log(year);
+            }}
+            classNames={{
+              base: "max-w-md",
+              filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
+              labelWrapper: "mb-2",
+              label: "font-small text-default-700 text-small text-white",
+              value: "font-medium text-default-500 text-small text-white",
+              thumb: [
+                "transition-size",
+                "bg-gradient-to-r from-secondary-400 to-primary-500",
+                "data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20",
+                "data-[dragging=true]:w-7 data-[dragging=true]:h-7 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6",
+              ],
+              step: "data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50",
+            }}
+            tooltipProps={{
+              offset: 10,
+              placement: "bottom",
+              classNames: {
+                base: [
+                  // arrow color
+                  "before:bg-gradient-to-r before:from-secondary-400 before:to-primary-500",
+                ],
+                content: [
+                  "py-2 shadow-xl",
+                  "text-white bg-gradient-to-r from-secondary-400 to-primary-500",
+                ],
+              },
+            }}
+          />
           <div className="w-full">
             <ActionButtons onCategoryChange={setCategory} category={category} />
           </div>
