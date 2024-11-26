@@ -42,9 +42,9 @@ const MainPage = () => {
   return (
     <div className="w-full h-screen">
       <div className="absolute z-10 top-0 m-4 text-white">
-        <div className="flex flex-col text-5xl font-bold gap-4 font-serif">
-          <div className="text-orange-600">A History of Coffee</div>
-          <div className="text-4xl text-center text-amber-300">From 1990 to 2019</div>
+        <div className="flex flex-col text-5xl font-bold gap-2">
+          <div>A History of Coffee</div>
+          <div className="text-4xl">From 1990 to 2019</div>
         </div>
       </div>
       <div className="absolute z-10 m-4 bottom-0">
