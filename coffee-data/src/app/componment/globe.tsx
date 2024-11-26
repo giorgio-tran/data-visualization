@@ -12,6 +12,7 @@ type GlobeComponentProps = {
   category: "coffee_imports" | "coffee_exports" | "coffee_production";
   year: string;
   countries: Partial<CoffeeDataFeatures>;
+  handleCountry: (country: string) => void;
 };
 
 const standardizeYear = (year: string): string => {
@@ -145,6 +146,9 @@ export default function GlobeComponent(props: GlobeComponentProps) {
                 </div>
               </div>
             `;
+        }}
+        onPolygonClick={(d) => {
+          props.handleCountry((d as CoffeeDataFeature).properties.NAME_LONG);
         }}
         onPolygonHover={setHoverD}
         polygonsTransitionDuration={300}
