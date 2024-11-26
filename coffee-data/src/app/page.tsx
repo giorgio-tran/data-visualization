@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import GlobeComponent from "./componment/globe";
 import ActionButtons from "./componment/actionButtons";
 import BarChart from "./componment/barChart";
-import Heading from "./componment/heading";
 import CountryDropdown from "./componment/countryDropdown";
 import LineChart from "@/app/componment/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
@@ -22,6 +21,10 @@ const MainPage = () => {
 
   const [year, setYear] = useState<string>("2019");
   // const year = "2019"; // here for now to deploy
+
+  const handleSelectedCountry = (country: string) => {
+    setSelectedCountry(country);
+  }
 
   useEffect(() => {
     // load data from the local file in the public directory
@@ -102,7 +105,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <GlobeComponent category={category} year={year} countries={countries} />
+      <GlobeComponent category={category} year={year} countries={countries} handleCountry={handleSelectedCountry} />
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/70 backdrop-blur-lg rounded-xl border border-gray-800">
           <BarChart year={year} type={dynamicLabel[category]} />

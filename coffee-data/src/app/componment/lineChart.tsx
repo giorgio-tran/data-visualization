@@ -61,6 +61,10 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   //     .catch((error) => console.error("Error fetching data:", error));
   // }, [country, url, type]);
 
+  {
+    console.log("country>", country);
+  }
+
   const filteredCountry = countries?.filter(
     (d) => d.properties.NAME_LONG === country
   )[0]?.properties[type];
@@ -95,9 +99,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   };
 
   function specialYearColor(ctx: ScriptableContext<"line">) {
-    console.log("ctx", ctx);
     const index = ctx.dataIndex;
-    console.log("index", years?.[index]);
     return years?.[index] === year ? "yellow" : "#7e22ce";
   }
 
@@ -149,12 +151,20 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   };
 
   return (
-    filteredCountry && (
-      <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-        <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
-          <Line data={data as ChartData<"line">} options={options} />
+    filteredCountry &&
+    country && (
+      <>
+        <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
+          <div className="text-2xl font-bold self-center text-center">
+            {country}
+          </div>
         </div>
-      </div>
+        <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
+          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
+            <Line data={data as ChartData<"line">} options={options} />
+          </div>
+        </div>
+      </>
     )
   );
 };
