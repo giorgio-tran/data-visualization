@@ -7,7 +7,7 @@ import BarChart from "./componment/barChart";
 import CountryDropdown from "./componment/countryDropdown";
 import LineChart from "@/app/componment/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
-import { dynamicLabel } from "./constants/constants";
+// import { dynamicLabel } from "./constants/constants";
 import { Slider } from "@nextui-org/slider";
 
 const MainPage = () => {
@@ -108,7 +108,7 @@ const MainPage = () => {
       <GlobeComponent category={category} year={year} countries={countries} handleCountry={handleSelectedCountry} />
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/70 backdrop-blur-lg rounded-xl border border-gray-800">
-          <BarChart year={year} type={dynamicLabel[category]} />
+          <BarChart year={year} type={category} />
         </div>
       </div>
 
