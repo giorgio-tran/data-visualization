@@ -1,5 +1,5 @@
 export const dynamicLabel = {
-  coffee_imports: "Import",
-  coffee_exports: "Export",
-  coffee_production: "Production",
+  coffee_imports: "Coffee Import",
+  coffee_exports: "Coffee Export",
+  coffee_production: "Coffee Production",
 };

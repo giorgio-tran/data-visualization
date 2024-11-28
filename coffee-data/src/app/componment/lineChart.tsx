@@ -13,6 +13,7 @@ import {
   ScriptableContext,
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
+import {dynamicLabel} from "@/app/constants/constants";
 
 ChartJS.register(
   CategoryScale,
@@ -113,7 +114,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
     plugins: {
       title: {
         display: true,
-        text: `Coffee ${type} Over Time`,
+        text: `Coffee ${dynamicLabel[type]} Over Time`,
       },
       tooltip: {
         mode: "index",
