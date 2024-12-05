@@ -5,6 +5,7 @@ export type CoffeeDataFeatures = {
 
 export type CoffeeDataFeature = {
   type: string;
+  bbox: number[];
   properties: {
     NAME: string;
     NAME_LONG: string;
