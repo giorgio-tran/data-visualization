@@ -32,6 +32,7 @@ const CountryDropdown = ({
   );
 
   const handleInputFocus = () => {
+    setSearchTerm("");
     setIsDropdownVisible(true);
   };
 
@@ -62,27 +63,27 @@ const CountryDropdown = ({
       />
 
       {isDropdownVisible && (
-        <div className="absolute bottom-full mt-2 w-full bg-black/70 border border-gray-800 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
-          <select
-            className="w-full p-2 text-white bg-black/70 border-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base"
-            value={selectedCountry}
-            onChange={handleChange}
-            size={5}
-          >
-            <option value="" disabled>
-              {searchTerm ? `Searching for: ${searchTerm}` : "Select a country"}
-            </option>
-            {filteredCountries.map((country) => (
-              <option
-                key={country.properties.NAME_LONG}
-                value={country.properties.NAME_LONG}
-                className="py-2"
-              >
-                {country.properties.NAME_LONG}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-indigo-500 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+            <select
+                className="w-full p-2 text-white bg-black/70 border-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base rounded-md"
+                value={selectedCountry}
+                onChange={handleChange}
+                size={5}
+            >
+              {/*<option value="" disabled className="rounded-md text-white bg-indigo-500">*/}
+              {/*  {searchTerm ? `Searching for: ${searchTerm}` : "Select a country"}*/}
+              {/*</option>*/}
+              {filteredCountries.map((country) => (
+                  <option
+                      key={country.properties.NAME_LONG}
+                      value={country.properties.NAME_LONG}
+                      className="py-2 rounded-md"
+                  >
+                    {country.properties.NAME_LONG}
+                  </option>
+              ))}
+            </select>
+          </div>
       )}
     </div>
   );
