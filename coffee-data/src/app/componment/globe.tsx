@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import dynamic from "next/dynamic";
 import * as d3 from "d3";
 import { CoffeeDataFeature, CoffeeDataFeatures } from "../types/coffee_data";
-
-// Dynamically import the Globe component with SSR disabled
-const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
+import GlobeWrapped from "./GlobeWrapped";
+import { GlobeMethods } from "react-globe.gl";
 
 type GlobeComponentProps = {
   category: "coffee_imports" | "coffee_exports" | "coffee_production";
   year: string;
   countries: Partial<CoffeeDataFeatures>;
   handleCountry: (country: string) => void;
+  globeRef: React.MutableRefObject<GlobeMethods | undefined>;
+  selectedCountry: string;
 };
 
 const standardizeYear = (year: string): string => {
@@ -49,9 +49,12 @@ export default function GlobeComponent(props: GlobeComponentProps) {
     };
 
     updateWidth();
-    window.addEventListener("resize", updateWidth);
+    if (window) {
+      window.addEventListener("resize", updateWidth);
+    }
+    console.log("rerendering globe");
     return () => window.removeEventListener("resize", updateWidth);
-  });
+  }, [parentRef.current?.offsetHeight, parentRef.current?.offsetWidth]);
 
   const dynamicLabel = {
     coffee_imports: "Import",
@@ -105,20 +108,27 @@ export default function GlobeComponent(props: GlobeComponentProps) {
 
   return (
     <div className="w-full h-full overflow-hidden" ref={parentRef}>
-      <Globe
+      <GlobeWrapped
+        forwardRef={props.globeRef}
         width={width}
         height={height}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}
         polygonsData={countries.features}
-        polygonAltitude={(d) => (d === hoverD ? 0.12 : 0.01)}
+        polygonAltitude={(d) => {
+          console.log("d", d);
+          return d.properties.NAME_LONG === props.selectedCountry ||
+            d === hoverD
+            ? 0.2
+            : 0.01;
+        }}
         polygonCapColor={(d) =>
           d === hoverD
             ? "steelblue"
             : colorScale(getVal(d as CoffeeDataFeature))
         }
-        polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
+        polygonSideColor={() => "rgba(0, 100, 0, 0.3)"}
         polygonStrokeColor={() => "#111"}
         polygonLabel={(d: object) => {
           const data = d as CoffeeDataFeature; // Assert that `d` is `CoffeeDataFeature`

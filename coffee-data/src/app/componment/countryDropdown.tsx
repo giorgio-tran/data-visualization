@@ -54,7 +54,7 @@ const CountryDropdown = ({
         type="text"
         id="country"
         className="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base bg-black/70 text-white"
-        placeholder="Search for a country..."
+        placeholder={selectedCountry || "Search for a country"}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onFocus={handleInputFocus}
