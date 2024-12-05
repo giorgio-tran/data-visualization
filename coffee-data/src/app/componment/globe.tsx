@@ -117,7 +117,7 @@ export default function GlobeComponent(props: GlobeComponentProps) {
         lineHoverPrecision={0}
         polygonsData={countries.features}
         polygonAltitude={(d) => {
-          console.log("d", d);
+          // console.log("d", d);
           return d.properties.NAME_LONG === props.selectedCountry ||
             d === hoverD
             ? 0.2
