@@ -118,8 +118,9 @@ export default function GlobeComponent(props: GlobeComponentProps) {
         polygonsData={countries.features}
         polygonAltitude={(d) => {
           // console.log("d", d);
-          return d.properties.NAME_LONG === props.selectedCountry ||
-            d === hoverD
+          const data = d as CoffeeDataFeature;
+          return data.properties.NAME_LONG === props.selectedCountry ||
+            data === hoverD
             ? 0.2
             : 0.01;
         }}
