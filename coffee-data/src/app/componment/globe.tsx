@@ -3,7 +3,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import * as d3 from "d3";
 import { CoffeeDataFeature, CoffeeDataFeatures } from "../types/coffee_data";
-import GlobeWrapped from "./GlobeWrapped";
+// import GlobeWrapped from "./GlobeWrapped";
+import dynamic from "next/dynamic";
 import { GlobeMethods } from "react-globe.gl";
 
 type GlobeComponentProps = {
@@ -27,6 +28,10 @@ const getMatchingYearKey = (
   if (data[targetYear]) return targetYear;
   return Object.keys(data).find((key) => key.startsWith(targetYear)) || null;
 };
+
+const GlobeWrapped = dynamic(() => import("./GlobeWrapped"), {
+  ssr: false,
+});
 
 export default function GlobeComponent(props: GlobeComponentProps) {
   const [countries, setCountries] = useState<Partial<CoffeeDataFeatures>>({
