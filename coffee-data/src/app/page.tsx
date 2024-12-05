@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import GlobeComponent from "./componment/globe";
 import ActionButtons from "./componment/actionButtons";
 import BarChart from "./componment/barChart";
@@ -9,6 +9,7 @@ import LineChart from "@/app/componment/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
 // import { dynamicLabel } from "./constants/constants";
 import { Slider } from "@nextui-org/slider";
+import { GlobeMethods } from "react-globe.gl";
 
 const MainPage = () => {
   const [category, setCategory] = useState<
@@ -24,7 +25,7 @@ const MainPage = () => {
 
   const handleSelectedCountry = (country: string) => {
     setSelectedCountry(country);
-  }
+  };
 
   useEffect(() => {
     // load data from the local file in the public directory
@@ -38,6 +39,26 @@ const MainPage = () => {
         });
       });
   }, [category, year]);
+
+  useEffect(() => {
+    if (selectedCountry && globeRef.current && countries.features) {
+      const country = countries.features.find(
+        (item: CoffeeDataFeature) =>
+          item.properties.NAME_LONG === selectedCountry
+      );
+      if (country) {
+        globeRef.current.pointOfView(
+          {
+            lat: (country.bbox[3] + country.bbox[1]) / 2,
+            lng: (country.bbox[2] + country.bbox[0]) / 2,
+            altitude: 1.5,
+          },
+          1000
+        );
+      }
+    }
+  }, [selectedCountry]);
+  const globeRef = useRef<GlobeMethods | undefined>();
 
   return (
     <div className="w-full h-screen">
@@ -103,9 +124,33 @@ const MainPage = () => {
           <div className="w-full">
             <ActionButtons onCategoryChange={setCategory} category={category} />
           </div>
+          {/* <button
+            onClick={() => {
+              if (globeRef.current) {
+                console.log(countries?.features[0]);
+                globeRef.current.pointOfView(
+                  {
+                    lat: countries?.features[0]?.geometry.coordinates[0][0][1],
+                    lng: countries?.features[0]?.geometry.coordinates[0][0][0],
+                    altitude: 0.2,
+                  },
+                  1000
+                );
+              }
+            }}
+          >
+            CLICK ME
+          </button> */}
         </div>
       </div>
-      <GlobeComponent category={category} year={year} countries={countries} handleCountry={handleSelectedCountry} />
+      <GlobeComponent
+        globeRef={globeRef}
+        category={category}
+        year={year}
+        countries={countries}
+        handleCountry={handleSelectedCountry}
+        selectedCountry={selectedCountry}
+      />
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/70 backdrop-blur-lg rounded-xl border border-gray-800">
           <BarChart year={year} type={category} />

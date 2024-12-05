@@ -9,8 +9,8 @@ import {
   ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import {CoffeeDataFeatures} from "../types/coffee_data";
-import {dynamicLabel} from "@/app/constants/constants";
+import { CoffeeDataFeatures } from "../types/coffee_data";
+import { dynamicLabel } from "@/app/constants/constants";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
@@ -62,13 +62,15 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
             if (data && data[fetchYear] !== undefined) {
               return {
                 country: data.Country,
-                dataInYear: parseInt(data[fetchYear]) || 0,  // Parse as number, default to 0 if invalid
+                dataInYear: parseInt(data[fetchYear]) || 0, // Parse as number, default to 0 if invalid
               };
             } else {
               return null; // Skip if no coffee_imports data
             }
-          }).filter((item) => item !== null)
-            .sort((a:any, b:any) => b.dataInYear - a.dataInYear).slice(0, 10);
+          })
+          .filter((item) => item !== null)
+          .sort((a: Country, b: Country) => b.dataInYear - a.dataInYear)
+          .slice(0, 10);
         setCountries(filteredData);
         console.log(filteredData);
       })
