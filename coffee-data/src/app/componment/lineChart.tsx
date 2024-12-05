@@ -84,7 +84,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
     labels: years,
     datasets: [
       {
-        label: `Coffee ${type} Data for ${country}`,
+        label: `Coffee ${dynamicLabel[type]} Data for ${country}`,
         data: years?.map((year) => {
           if (parseFloat(filteredCountry[year]) < 0) {
             return null;
