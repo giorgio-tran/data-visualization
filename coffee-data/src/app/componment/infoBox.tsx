@@ -40,7 +40,7 @@ const InfoBox = () => {
       <div className="text-xl text-opacity-90 text-gray-300 font-bold mb-4 pl-4">
         <h2>{title}</h2>
       </div>
-      <div className="overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-800 mb-6 pl-4 pr-2">
+      <div className="overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-800 mb-6 pl-4 pr-2 scrollbar-thin">
         {content}
       </div>
       <div className="flex justify-center space-x-4 pb-2 mt-auto">

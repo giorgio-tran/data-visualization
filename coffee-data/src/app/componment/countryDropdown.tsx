@@ -66,7 +66,7 @@ const CountryDropdown = ({
         />
 
         {isDropdownVisible && filteredCountries.length > 0 && (
-            <ul className="absolute bottom-full mt-3 w-full bg-black/70 border bg-black ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+            <ul className="absolute bottom-full mt-3 w-full bg-black/70 border bg-black ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto scrollbar-thin">
               {filteredCountries.map((country) => (
                   <li
                       key={country.properties.NAME_LONG}
