@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CoffeeDataFeatures } from "../types/coffee_data";
-import { dynamicLabel } from "@/app/constants/constants";
+import {dynamicLabel, dynamicTitle} from "@/app/constants/constants";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
@@ -43,7 +43,7 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
     labels: countries.map((country) => country.country),
     datasets: [
       {
-        label: `Coffee ${dynamicLabel[type]} Data in ${year}`,
+        label: `Top 10 ${dynamicTitle[type]} Countries in ${year}`,
         data: countries.map((country) => country.dataInYear),
         backgroundColor: generateColors(countries.length),
         borderColor: countries.map(() => "rgba(0, 0, 0, 0.3)"),
@@ -90,6 +90,11 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
           callback: function (value: string | number) {
             return value.toLocaleString();
           },
+        },
+        title: {
+          display: true,
+          color: "white",
+          text: "Amount (kg)",
         },
       },
       y: {

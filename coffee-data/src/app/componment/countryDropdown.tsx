@@ -11,28 +11,32 @@ type CountryDropdownProps = {
 };
 
 const CountryDropdown = ({
-  category,
-  setSelectedCountry,
-  selectedCountry,
-  countries,
-}: CountryDropdownProps) => {
+                           category,
+                           setSelectedCountry,
+                           selectedCountry,
+                           countries,
+                         }: CountryDropdownProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCountry(e.target.value);
+  const filteredCountries = countries.filter((country) =>
+      country.properties.NAME_LONG.toLowerCase().includes(
+          searchTerm.toLowerCase()
+      )
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setIsDropdownVisible(true);
+  };
+
+  const handleSelection = (value: string) => {
+    setSelectedCountry(value);
+    setSearchTerm("");
     setIsDropdownVisible(false);
   };
 
-  const filteredCountries = countries.filter((country) =>
-    country.properties.NAME_LONG.toLowerCase().includes(
-      searchTerm.toLowerCase()
-    )
-  );
-
   const handleInputFocus = () => {
-    setSearchTerm("");
     setIsDropdownVisible(true);
   };
 
@@ -43,49 +47,45 @@ const CountryDropdown = ({
   };
 
   return (
-    <div className="w-full max-w-sm relative">
-      <label
-        htmlFor="country"
-        className="block text-sm font-medium text-white mb-2"
-      >
-        Select a Country ({category.replace("coffee_", "").toUpperCase()})
-      </label>
+      <div className="w-full max-w-sm relative">
+        <label
+            htmlFor="country"
+            className="block text-sm font-medium text-white mb-2"
+        >
+          Select a Country ({category.replace("coffee_", "").toUpperCase()})
+        </label>
+        <input
+            type="text"
+            id="country"
+            className="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base bg-black/70 text-white"
+            placeholder={selectedCountry || "Search for a country"}
+            value={searchTerm}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+        />
 
-      <input
-        type="text"
-        id="country"
-        className="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base bg-black/70 text-white"
-        placeholder={selectedCountry || "Search for a country"}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-      />
-
-      {isDropdownVisible && (
-          <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-indigo-500 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
-            <select
-                className="w-full p-2 text-white bg-black/70 border-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base rounded-md"
-                value={selectedCountry}
-                onChange={handleChange}
-                size={5}
-            >
-              {/*<option value="" disabled className="rounded-md text-white bg-indigo-500">*/}
-              {/*  {searchTerm ? `Searching for: ${searchTerm}` : "Select a country"}*/}
-              {/*</option>*/}
+        {isDropdownVisible && filteredCountries.length > 0 && (
+            <ul className="absolute bottom-full mt-3 w-full bg-black/70 border bg-black ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
               {filteredCountries.map((country) => (
-                  <option
+                  <li
                       key={country.properties.NAME_LONG}
-                      value={country.properties.NAME_LONG}
-                      className="py-2 rounded-md"
+                      className="py-2 px-4 hover:bg-clr4 text-white cursor-pointer"
+                      onMouseDown={() => handleSelection(country.properties.NAME_LONG)}
                   >
                     {country.properties.NAME_LONG}
-                  </option>
+                  </li>
               ))}
-            </select>
-          </div>
-      )}
-    </div>
+            </ul>
+        )}
+
+        {/* Message if no results */}
+        {isDropdownVisible && filteredCountries.length === 0 && (
+            <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-indigo-500 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto text-center text-white py-2">
+              No results found
+            </div>
+        )}
+      </div>
   );
 };
 
