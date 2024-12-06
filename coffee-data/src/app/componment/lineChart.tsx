@@ -13,7 +13,7 @@ import {
   ScriptableContext,
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
-import { dynamicLabel } from "@/app/constants/constants";
+import {  dynamicLabel  } from "@/app/constants/constants";
 import { useEffect, useState } from "react";
 
 ChartJS.register(
@@ -89,9 +89,11 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       title: {
         display: true,
         text: `Coffee ${dynamicLabel[type]} Over Time`,
+        color: "white",
       },
       tooltip: {
         mode: "index",
+        titleColor: "white",
         intersect: false,
       },
     },
@@ -108,12 +110,14 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
         title: {
           display: true,
           text: "Year",
+          color: "white",
         },
       },
       y: {
         type: "linear",
         title: {
           display: true,
+          color: "white",
           text: "Amount (kg)",
         },
         ticks: {
@@ -130,7 +134,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       country && (
           <>
             <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
-              <div className="text-2xl font-bold self-center text-center">{country}</div>
+              <div className="text-2xl font-bold self-center text-center text-outline">{country}</div>
             </div>
 
             {isChartVisible && (
