@@ -81,7 +81,7 @@ const CountryDropdown = ({
 
         {/* Message if no results */}
         {isDropdownVisible && filteredCountries.length === 0 && (
-            <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-indigo-500 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto text-center text-white py-2">
+            <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-clr4 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto text-center text-white py-2">
               No results found
             </div>
         )}
