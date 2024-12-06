@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
 
 const contentData = [
   {
@@ -12,18 +11,14 @@ const contentData = [
         This dataset provides information on coffee production and consumption, 
         with all data sourced from the official International Coffee Organization (ICO) website. 
         The original data, available{" "}
-        <Link href="https://www.ico.org/new_historical.asp" passHref>
-          <span className="text-teal-400 text-opacity-60 hover:underline cursor-pointer">
-            here
-          </span>
-        </Link>, 
+        <a href="https://www.ico.org/new_historical.asp" target="_blank" rel="noopener noreferrer" className="text-teal-400 text-opacity-60 hover:underline cursor-pointer">
+          here
+        </a>, 
         was processed and formatted for analysis using a JupyterLab Python notebook. 
         Detailed information about the notebook and its implementation can be found in the project&apos;s{" "}
-        <Link href="https://github.com/MSI17819/Coffee_data_analysis/blob/main/Coffee_codeimpro.ipynb" passHref>
-          <span className="text-teal-400 text-opacity-60 hover:underline cursor-pointer">
-            Coffee Data Analysis
-          </span>
-        </Link> GitHub repository.
+        <a href="https://github.com/MSI17819/Coffee_data_analysis/blob/main/Coffee_codeimpro.ipynb" target="_blank" rel="noopener noreferrer" className="text-teal-400 text-opacity-60 hover:underline cursor-pointer">
+          Coffee Data Analysis
+        </a> GitHub repository.
         The statistics in the dataset are presented in kilograms (units of 1,000 grams).
       </p>
     ),
