@@ -56,6 +56,11 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       )
       : null;
 
+  const formatYear = (year: string) => {
+    const nextYear = parseInt(year.toString(), 10) + 1;
+    return `${year}/${nextYear.toString().slice(-2)}`;
+  };
+
   const data = {
     labels: years,
     datasets: [
@@ -75,7 +80,8 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
 
   function specialYearColor(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
-    return years?.[index] === year ? "yellow" : "#7e22ce";
+    const yearFormat = type === "coffee_production" ? formatYear(year) : year;
+    return years?.[index] === yearFormat ? "yellow" : "#7e22ce";
   }
 
   function specialYearRadius(ctx: ScriptableContext<"line">) {
@@ -134,7 +140,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       country && (
           <>
             <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
-              <div className="text-2xl font-bold self-center text-center text-outline">{country}</div>
+              <div className="text-2xl font-bold self-center text-center text-outline text-white">{country}</div>
             </div>
 
             {isChartVisible && (
