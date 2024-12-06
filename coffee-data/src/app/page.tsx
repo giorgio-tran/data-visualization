@@ -10,6 +10,7 @@ import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
 // import { dynamicLabel } from "./constants/constants";
 import { Slider } from "@nextui-org/slider";
 import { GlobeMethods } from "react-globe.gl";
+import InfoBox from "./componment/infoBox";
 
 const MainPage = () => {
   const [category, setCategory] = useState<
@@ -67,6 +68,7 @@ const MainPage = () => {
           <div>A History of Coffee</div>
           <div className="text-4xl">From 1990 to 2019</div>
         </div>
+        <InfoBox />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
         <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
