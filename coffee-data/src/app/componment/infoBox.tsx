@@ -5,6 +5,23 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const contentData = [
   {
+    title: "Data Visualization Project",
+    content: (
+      <p className="text-sm text-gray-300 text-opacity-60 break-words">
+        Welcome to the Coffee Data Visualization project! 
+        This project aims to provide an insightful and interactive visualization of global coffee production and consumption trends. 
+        By leveraging data sourced from the official International Coffee Organization (ICO), 
+        we present a clear and detailed view of how coffee is produced and consumed worldwide. 
+        Through this visualization, users can explore the intricate relationships between coffee production and consumption, 
+        and gain a better understanding of the global coffee market. For detailed information on the data processing and analysis, 
+        please visit the project&apos;s{" "}
+        <a href="https://github.com/Team-13-2024" target="_blank" rel="noopener noreferrer" className="text-teal-400 text-opacity-60 hover:underline cursor-pointer">
+          GitHub repository
+        </a>.
+      </p>
+    ),
+  },
+  {
     title: "About Dataset",
     content: (
       <p className="text-sm text-gray-300 text-opacity-60 break-words">
@@ -23,7 +40,6 @@ const contentData = [
       </p>
     ),
   },
-  { title: "Page 2", content: <p className="text-sm text-gray-300 text-opacity-60 break-words">page 2 content</p> },
   { title: "Page 3", content: <p className="text-sm text-gray-300 text-opacity-60 break-words">page 3 content</p> },
 ];
 
