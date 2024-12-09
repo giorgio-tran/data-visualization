@@ -41,25 +41,7 @@ export default function GlobeComponent(props: GlobeComponentProps) {
 
   const { category, year } = props;
 
-  // const [width, setWidth] = useState(window.innerWidth);
-  // const [height, setHeight] = useState(window.innerHeight);
   const parentRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const updateWidth = () => {
-  //     if (parentRef.current) {
-  //       setWidth(parentRef.current.offsetWidth);
-  //       setHeight(parentRef.current.offsetHeight);
-  //     }
-  //   };
-
-  //   updateWidth();
-  //   if (window) {
-  //     window.addEventListener("resize", updateWidth);
-  //   }
-  //   console.log("rerendering globe");
-  //   return () => window.removeEventListener("resize", updateWidth);
-  // }, [parentRef.current?.offsetHeight, parentRef.current?.offsetWidth]);
 
   const dynamicLabel = {
     coffee_imports: "Import",

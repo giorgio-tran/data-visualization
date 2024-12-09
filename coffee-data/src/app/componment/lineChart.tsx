@@ -13,17 +13,17 @@ import {
   ScriptableContext,
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
-import {  dynamicLabel  } from "@/app/constants/constants";
+import { dynamicLabel } from "@/app/constants/constants";
 import { useEffect, useState } from "react";
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Title,
-    Tooltip,
-    Legend
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
 );
 
 type LineChartProps = {
@@ -37,7 +37,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   const [isChartVisible, setIsChartVisible] = useState(true);
 
   const filteredCountry = countries?.filter(
-      (d) => d.properties.NAME_LONG === country
+    (d) => d.properties.NAME_LONG === country
   )[0]?.properties[type];
 
   useEffect(() => {
@@ -47,14 +47,14 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   }, [filteredCountry, country]);
 
   const years = filteredCountry
-      ? Object.keys(filteredCountry).filter(
-          (d) =>
-              d !== "Country" &&
-              d !== "Total_import" &&
-              d !== "Total_export" &&
-              d !== "Total_production"
+    ? Object.keys(filteredCountry).filter(
+        (d) =>
+          d !== "Country" &&
+          d !== "Total_import" &&
+          d !== "Total_export" &&
+          d !== "Total_production"
       )
-      : null;
+    : null;
 
   const formatYear = (year: string) => {
     const nextYear = parseInt(year.toString(), 10) + 1;
@@ -136,27 +136,29 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   };
 
   return (
-      filteredCountry &&
-      country && isChartVisible && (
-          <>
-            <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
-              <div className="text-2xl font-bold self-center text-center text-outline text-white">{country}</div>
-            </div>
-                <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-                  <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative">
-                    <button
-                        onClick={() => setIsChartVisible(false)}
-                        className="absolute top-2 right-2 text-white text-xl bg-transparent border-none cursor-pointer"
-                        aria-label="Close chart"
-                    >
-                      X
-                    </button>
-                    <Line data={data as ChartData<"line">} options={options} />
-                  </div>
-                </div>
-            )
-          </>
-      )
+    filteredCountry &&
+    country &&
+    isChartVisible && (
+      <>
+        <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
+          <div className="text-2xl font-bold self-center text-center text-outline text-white">
+            {country}
+          </div>
+        </div>
+        <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
+          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative">
+            <button
+              onClick={() => setIsChartVisible(false)}
+              className="absolute top-2 right-2 text-white text-xl bg-transparent border-none cursor-pointer"
+              aria-label="Close chart"
+            >
+              X
+            </button>
+            <Line data={data as ChartData<"line">} options={options} />
+          </div>
+        </div>
+      </>
+    )
   );
 };
 
