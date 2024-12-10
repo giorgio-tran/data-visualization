@@ -89,12 +89,17 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
       x: {
         beginAtZero: true,
         grid: {
-          display: false, // Hides the grid on the x-axis
+          drawOnChartArea: true,
+          color: "gray",
+          drawTicks: true,
         },
         ticks: {
           callback: function (value: string | number) {
             return value.toLocaleString();
           },
+          // display: true,
+          autoSkip: true,
+          maxTicksLimit: 4,
           color: "white",
         },
         title: {

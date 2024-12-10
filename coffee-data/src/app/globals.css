@@ -97,7 +97,7 @@ body {
 }
 
 #polygon-label-background {
-  @apply absolute bg-black opacity-80 w-full h-full -z-10 rounded-lg border;
+  @apply absolute bg-black/60 backdrop-blur-lg w-full h-full -z-10 rounded-lg border;
 }
 
 #polygon-label-text {
