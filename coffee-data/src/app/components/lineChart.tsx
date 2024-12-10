@@ -131,6 +131,9 @@ const LineChart = ({
           color: "white",
           text: "Amount (kg)",
         },
+        grid: {
+          drawOnChartArea: false,
+        },
         ticks: {
           callback: function (value: string | number) {
             return value.toLocaleString();

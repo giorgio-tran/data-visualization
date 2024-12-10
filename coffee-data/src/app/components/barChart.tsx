@@ -88,8 +88,11 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
     scales: {
       x: {
         beginAtZero: true,
+        border: {
+          color: "gray",
+        },
         grid: {
-          drawOnChartArea: true,
+          drawOnChartArea: false,
           color: "gray",
           drawTicks: true,
         },
