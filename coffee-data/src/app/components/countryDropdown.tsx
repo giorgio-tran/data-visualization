@@ -46,7 +46,17 @@ const CountryDropdown = ({
   };
 
   return (
-    <div className="w-full max-w-sm relative">
+    <form
+      className="w-full max-w-sm relative"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (filteredCountries.length === 1) {
+          setSelectedCountry(filteredCountries[0].properties.NAME_LONG);
+          setIsDropdownVisible(false);
+          setSearchTerm("");
+        }
+      }}
+    >
       <label
         htmlFor="country"
         className="block text-sm font-medium text-white mb-2"
@@ -70,7 +80,9 @@ const CountryDropdown = ({
           {filteredCountries.map((country) => (
             <li
               key={country.properties.NAME_LONG}
-              className="py-2 px-4 hover:bg-clr4 text-white w-full"
+              className={`py-2 px-4 hover:bg-clr4 cursor-pointer text-white w-full ${
+                filteredCountries.length === 1 ? "bg-clr4" : ""
+              }`}
               onMouseDown={() => handleSelection(country.properties.NAME_LONG)}
             >
               {country.properties.NAME_LONG}
@@ -81,11 +93,11 @@ const CountryDropdown = ({
 
       {/* Message if no results */}
       {isDropdownVisible && filteredCountries.length === 0 && (
-        <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-clr4 ring-indigo-500 border-indigo-500 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto text-center text-white py-2">
+        <div className="absolute bottom-full mt-3 w-full bg-black/70 border bg-clr4 border-gray-800 rounded-md shadow-lg z-10 max-h-60 overflow-y-auto text-center text-white py-2">
           No results found
         </div>
       )}
-    </div>
+    </form>
   );
 };
 
