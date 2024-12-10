@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, X, Info } from "lucide-react";
+import Image from "next/image";
 
 const contentData = [
   {
@@ -30,16 +31,18 @@ const contentData = [
       <>
         <ul className="text-sm text-white list-disc ml-6 space-y-4">
           <li className="flex items-center space-x-3">
-            <img
+            <Image
               src="https://github.com/giorgio-tran.png"
               alt="Giorgio Tran"
               className="w-11 h-11 rounded-full"
+              width="44"
+              height="44"
             />
             <div>
               <span className="font-semibold">Giorgio Tran</span>
               <br />
               <a
-                href="https://giorgio-tran.github.io/"
+                href="https://giorgio-tran.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-600 underline"
@@ -49,10 +52,12 @@ const contentData = [
             </div>
           </li>
           <li className="flex items-center space-x-3">
-            <img
-              src="https://feimeichen.github.io/images/FeimeiChen.jpeg"
+            <Image
+              src="https://github.com/feimeichen.png"
               alt="Feimei Chen"
               className="w-11 h-11 rounded-full"
+              width="44"
+              height="44"
             />
             <div>
               <span className="font-semibold">Feimei Chen</span>
@@ -68,10 +73,12 @@ const contentData = [
             </div>
           </li>
           <li className="flex items-center space-x-3">
-            <img
-              src="https://avatars.githubusercontent.com/u/77360958?v=4"
+            <Image
+              src="https://github.com/hokwaichan.png"
               alt="Hok Wai Chan"
               className="w-11 h-11 rounded-full"
+              width="44"
+              height="44"
             />
             <div>
               <span className="font-semibold">Hok Wai Chan</span>
