@@ -1,11 +1,11 @@
 export const dynamicLabel = {
-  coffee_imports: "Coffee Import",
-  coffee_exports: "Coffee Export",
-  coffee_production: "Coffee Production",
+  coffee_imports: "Import",
+  coffee_exports: "Export",
+  coffee_production: "Production",
 };
 
 export const dynamicTitle = {
-  coffee_imports: "Coffee Importing",
-  coffee_exports: "Coffee Exporting",
-  coffee_production: "Coffee Producing",
+  coffee_imports: "Importing",
+  coffee_exports: "Exporting",
+  coffee_production: "Producing",
 }

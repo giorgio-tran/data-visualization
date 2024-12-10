@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CoffeeDataFeatures } from "../types/coffee_data";
-import {dynamicLabel, dynamicTitle} from "@/app/constants/constants";
+import { dynamicTitle } from "@/app/constants/constants";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
@@ -80,6 +80,11 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
   const options: ChartOptions<"bar"> = {
     responsive: true,
     indexAxis: "y",
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     scales: {
       x: {
         beginAtZero: true,
@@ -90,6 +95,7 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
           callback: function (value: string | number) {
             return value.toLocaleString();
           },
+          color: "white",
         },
         title: {
           display: true,
@@ -105,12 +111,20 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
         ticks: {
           padding: 10,
           autoSkip: false,
+          color: "white",
         },
       },
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div className="p-2">
+      <div className="text-2xl font-bold self-center text-center text-outline text-white">
+        Top 10 {dynamicTitle[type]} Countries in {year}
+      </div>
+      <Bar data={data} options={options} />
+    </div>
+  );
 };
 
 export default BarChart;
