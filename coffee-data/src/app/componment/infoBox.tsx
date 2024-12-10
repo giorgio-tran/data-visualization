@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Info } from "lucide-react";
 
 const contentData = [
   {
@@ -37,6 +37,7 @@ const contentData = [
 
 const InfoBox = () => {
   const [currentContent, setCurrentContent] = useState(1);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleNextContent = () =>
     setCurrentContent((prev) => Math.min(prev + 1, contentData.length));
@@ -45,8 +46,27 @@ const InfoBox = () => {
 
   const { title, content } = contentData[currentContent - 1];
 
+  if (!isOpen) {
+    return (
+      <button
+        className="absolute top-[200px] bg-black/70 backdrop-blur-lg border border-slate-700 rounded-full p-3"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        <Info className="w-6 h-6 text-slate-300" />
+      </button>
+    );
+  }
+
   return (
-    <div className="mt-12 bg-black/70 backdrop-blur-lg text-white shadow-lg rounded-lg p-4 w-[360px] h-[300px] border border-gray-800 flex flex-col">
+    <div className="mt-12 bg-black/70 backdrop-blur-lg text-white shadow-lg rounded-lg p-4 w-[360px] h-[300px] border border-gray-800 flex flex-col relative">
+      <button
+        onClick={() => setIsOpen(false)}
+        className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
+      >
+        <X className="w-5 h-5" />
+      </button>
       <div className="text-xl text-white font-bold mb-4">
         <h2>{title}</h2>
       </div>
