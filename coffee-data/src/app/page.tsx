@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import GlobeComponent from "./componment/globe";
-import ActionButtons from "./componment/actionButtons";
-import BarChart from "./componment/barChart";
-import CountryDropdown from "./componment/countryDropdown";
-import LineChart from "@/app/componment/lineChart";
+import GlobeComponent from "./components/globe";
+import ActionButtons from "./components/actionButtons";
+import BarChart from "./components/barChart";
+import CountryDropdown from "./components/countryDropdown";
+import LineChart from "@/app/components/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
 // import { dynamicLabel } from "./constants/constants";
 import { Slider } from "@nextui-org/slider";
 import { GlobeMethods } from "react-globe.gl";
-import InfoBox from "./componment/infoBox";
+import InfoBox from "./components/infoBox";
 
 const MainPage = () => {
   const [category, setCategory] = useState<

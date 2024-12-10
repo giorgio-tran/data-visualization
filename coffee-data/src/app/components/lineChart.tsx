@@ -14,7 +14,6 @@ import {
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
 import { dynamicLabel } from "@/app/constants/constants";
-import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 ChartJS.register(
@@ -104,7 +103,7 @@ const LineChart = ({
         labels: {
           color: "white",
         },
-      }
+      },
     },
     elements: {
       point: {
