@@ -13,7 +13,8 @@ import {
   ScriptableContext,
 } from "chart.js";
 import { CoffeeDataFeature } from "../types/coffee_data";
-import {dynamicLabel} from "@/app/constants/constants";
+import { dynamicLabel } from "@/app/constants/constants";
+import { X } from "lucide-react";
 
 ChartJS.register(
   CategoryScale,
@@ -30,46 +31,22 @@ type LineChartProps = {
   type: "coffee_imports" | "coffee_exports" | "coffee_production";
   countries: CoffeeDataFeature[];
   year: string;
+  onClose: () => void; // Callback to notify parent when chart closes
 };
 
-const LineChart = ({ country, type, countries, year }: LineChartProps) => {
-  // let url = "";
-  // if (type === "Import") {
-  //   url = "/data/Coffee_import.json";
-  // } else if (type === "Export") {
-  //   url = "/data/coffee_export.json";
-  // } else {
-  //   url = "/data/Coffee_production.json";
-  // }
-  // useEffect(() => {
-  //   fetch(url)
-  //     .then((res) => res.json())
-  //     .then((items: CoffeeLogistics[]) => {
-  //       const data = items.find(
-  //         (item: CoffeeLogistics) => item.Country.trim() === country
-  //       );
-  //       if (data) {
-  //         setChartData(data);
-  //         // Get the list of years (keys) excluding 'Country' and 'Total_import'
-  //         const yearsList = Object.keys(data).filter(
-  //           (key) => key !== "Country" && key !== "Total_import"
-  //         );
-  //         setYears(yearsList);
-  //       } else {
-  //         console.error(`Country "${country}" not found in the data.`);
-  //       }
-  //     })
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, [country, url, type]);
-
-  {
-    console.log("country>", country);
-  }
-
-  const filteredCountry = countries?.filter(
+const LineChart = ({
+  country,
+  type,
+  countries,
+  year,
+  onClose,
+}: LineChartProps) => {
+  // Filter the selected country's data
+  const filteredCountry = countries?.find(
     (d) => d.properties.NAME_LONG === country
-  )[0]?.properties[type];
+  )?.properties[type];
 
+  // Handle years dynamically
   const years = filteredCountry
     ? Object.keys(filteredCountry).filter(
         (d) =>
@@ -80,28 +57,33 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
       )
     : null;
 
+  const formatYear = (year: string) => {
+    const nextYear = parseInt(year, 10) + 1;
+    return `${year}/${nextYear.toString().slice(-2)}`;
+  };
+
   const data = {
-    labels: years,
+    labels: years ?? [],
     datasets: [
       {
-        label: `Coffee ${type} Data for ${country}`,
-        data: years?.map((year) => {
-          if (parseFloat(filteredCountry[year]) < 0) {
+        label: `Coffee ${dynamicLabel[type]} Data for ${country}`,
+        data:
+          years?.map((year) => {
+            if (filteredCountry && parseFloat(filteredCountry[year]) >= 0) {
+              return parseFloat(filteredCountry[year]);
+            }
             return null;
-          }
-          return parseFloat(filteredCountry[year]);
-        }),
+          }) ?? [],
         fill: false,
         borderColor: "#7e22ce",
-        // pointRadius: 5,
-        // pointBackgroundColor: "rgb(75, 192, 192)",
       },
     ],
   };
 
   function specialYearColor(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
-    return years?.[index] === year ? "yellow" : "#7e22ce";
+    const yearFormat = type === "coffee_production" ? formatYear(year) : year;
+    return years?.[index] === yearFormat ? "yellow" : "#7e22ce";
   }
 
   function specialYearRadius(ctx: ScriptableContext<"line">) {
@@ -112,13 +94,15 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   const options: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
-      title: {
-        display: true,
-        text: `Coffee ${dynamicLabel[type]} Over Time`,
-      },
       tooltip: {
         mode: "index",
+        titleColor: "white",
         intersect: false,
+      },
+      legend: {
+        labels: {
+          color: "white",
+        },
       },
     },
     elements: {
@@ -134,34 +118,52 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
         title: {
           display: true,
           text: "Year",
+          color: "white",
+        },
+        ticks: {
+          color: "white",
         },
       },
       y: {
         type: "linear",
         title: {
           display: true,
+          color: "white",
           text: "Amount (kg)",
+        },
+        grid: {
+          drawOnChartArea: false,
         },
         ticks: {
           callback: function (value: string | number) {
             return value.toLocaleString();
           },
+          color: "white",
         },
       },
     },
+  };
+
+  // Handle the close button click
+  const handleClose = () => {
+    onClose();
   };
 
   return (
     filteredCountry &&
     country && (
       <>
-        <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
-          <div className="text-2xl font-bold self-center text-center">
-            {country}
-          </div>
-        </div>
         <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800">
+          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative p-2">
+            <button
+              onClick={handleClose}
+              className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
+            >
+              <X className="w-5 h-5 text-slate-300" />
+            </button>
+            <div className="text-2xl font-bold self-center text-center text-outline text-white">
+              {country}
+            </div>
             <Line data={data as ChartData<"line">} options={options} />
           </div>
         </div>

@@ -19,7 +19,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         onClick={() => onCategoryChange("coffee_imports")}
         className={`${
           category === "coffee_imports" ? "bg-transparent" : "bg-black/80"
-        } focus:bg-transparent backdrop-blur-xl text-white px-4 py-2 rounded-l-lg  w-full border border-gray-800 hover:bg-black/50`}
+        } focus:bg-transparent backdrop-blur-xl text-white py-2 rounded-l-lg border w-1/3 border-gray-800 hover:bg-black/50`}
       >
         Import
       </button>
@@ -27,7 +27,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         onClick={() => onCategoryChange("coffee_exports")}
         className={`${
           category === "coffee_exports" ? "bg-transparent" : "bg-black/80"
-        } focus:bg-transparent backdrop-blur-xl text-white px-4 py-2 hover:bg-black/50 w-full border border-r-0  border-l-0 border-t-gray-800 border-b-gray-800`}
+        } focus:bg-transparent backdrop-blur-xl text-white py-2 hover:bg-black/50 w-1/3 border border-r-0  border-l-0 border-t-gray-800 border-b-gray-800`}
       >
         Export
       </button>
@@ -35,7 +35,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         onClick={() => onCategoryChange("coffee_production")}
         className={`${
           category === "coffee_production" ? "bg-transparent" : "bg-black/80"
-        } focus:bg-transparent ease-in backdrop-blur-xl text-white px-4 py-2 rounded-r-lg w-full border border-gray-800 hover:bg-slate-800`}
+        } focus:bg-transparent backdrop-blur-xl text-white py-2 hover:bg-black/50 w-1/3 border border-r-0 rounded-r-lg border-l-gray-800 border-t-gray-800 border-b-gray-800`}
       >
         Produced
       </button>

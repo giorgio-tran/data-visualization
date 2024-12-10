@@ -40,6 +40,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.text-outline {
+  text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black,
+    -1px 1px 0 black;
+}
 .card,
 .chart-glow {
   position: relative; /* for absolute positioning pseudoelements */
@@ -93,9 +97,31 @@ body {
 }
 
 #polygon-label-background {
-  @apply absolute bg-black opacity-80 w-full h-full -z-10 rounded-lg border;
+  @apply absolute bg-black/60 backdrop-blur-lg w-full h-full -z-10 rounded-lg border;
 }
 
 #polygon-label-text {
   @apply p-4;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-600 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--clr-2), var(--clr-5));
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

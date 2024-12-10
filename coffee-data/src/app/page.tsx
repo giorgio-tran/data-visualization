@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import GlobeComponent from "./componment/globe";
-import ActionButtons from "./componment/actionButtons";
-import BarChart from "./componment/barChart";
-import CountryDropdown from "./componment/countryDropdown";
-import LineChart from "@/app/componment/lineChart";
+import GlobeComponent from "./components/globe";
+import ActionButtons from "./components/actionButtons";
+import BarChart from "./components/barChart";
+import CountryDropdown from "./components/countryDropdown";
+import LineChart from "@/app/components/lineChart";
 import { CoffeeDataFeatures, CoffeeDataFeature } from "./types/coffee_data";
 // import { dynamicLabel } from "./constants/constants";
 import { Slider } from "@nextui-org/slider";
 import { GlobeMethods } from "react-globe.gl";
+import InfoBox from "./components/infoBox";
 
 const MainPage = () => {
   const [category, setCategory] = useState<
@@ -19,11 +20,12 @@ const MainPage = () => {
     features: [],
   });
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-
+  const [isChartClosed, setIsChartClosed] = useState(false);
   const [year, setYear] = useState<string>("2019");
   // const year = "2019"; // here for now to deploy
 
   const handleSelectedCountry = (country: string) => {
+    setIsChartClosed(false);
     setSelectedCountry(country);
   };
 
@@ -39,6 +41,8 @@ const MainPage = () => {
         });
       });
   }, [category, year]);
+
+  const globeRef = useRef<GlobeMethods | undefined>();
 
   useEffect(() => {
     if (selectedCountry && globeRef.current && countries.features) {
@@ -58,21 +62,21 @@ const MainPage = () => {
       }
     }
   }, [selectedCountry]);
-  const globeRef = useRef<GlobeMethods | undefined>();
 
   return (
     <div className="w-full h-screen">
       <div className="absolute z-10 top-0 m-4 text-white">
-        <div className="flex flex-col text-5xl font-bold gap-2">
+        <div className="flex flex-col text-5xl font-bold gap-2 text-outline">
           <div>A History of Coffee</div>
           <div className="text-4xl">From 1990 to 2019</div>
         </div>
+        <InfoBox />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
-        <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
+        <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4 w-80">
           <CountryDropdown
             category={category}
-            setSelectedCountry={setSelectedCountry}
+            setSelectedCountry={handleSelectedCountry}
             selectedCountry={selectedCountry}
             countries={countries.features as CoffeeDataFeature[]}
           />
@@ -156,14 +160,14 @@ const MainPage = () => {
           <BarChart year={year} type={category} />
         </div>
       </div>
-
-      {selectedCountry && (
+      {selectedCountry && !isChartClosed && (
         <LineChart
           countries={countries.features as CoffeeDataFeature[]}
           country={selectedCountry}
           type={category}
           year={year}
-        ></LineChart>
+          onClose={() => setIsChartClosed(true)} // Pass a handler to close the chart
+        />
       )}
     </div>
   );

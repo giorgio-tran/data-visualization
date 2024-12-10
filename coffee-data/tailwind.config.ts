@@ -11,6 +11,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        clr1: '#d391fa',
+        clr2: '#c364fa',
+        clr3: '#a230ed',
+        clr4: '#6b00d7',
+        clr5: '#3e00b3',
         background: "var(--background)",
         foreground: "var(--foreground)",
       },

@@ -41,25 +41,7 @@ export default function GlobeComponent(props: GlobeComponentProps) {
 
   const { category, year } = props;
 
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
   const parentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (parentRef.current) {
-        setWidth(parentRef.current.offsetWidth);
-        setHeight(parentRef.current.offsetHeight);
-      }
-    };
-
-    updateWidth();
-    if (window) {
-      window.addEventListener("resize", updateWidth);
-    }
-    console.log("rerendering globe");
-    return () => window.removeEventListener("resize", updateWidth);
-  }, [parentRef.current?.offsetHeight, parentRef.current?.offsetWidth]);
 
   const dynamicLabel = {
     coffee_imports: "Import",
@@ -108,15 +90,19 @@ export default function GlobeComponent(props: GlobeComponentProps) {
   colorScale.domain([0, maxVal]);
 
   if (countries.features?.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-screen h-screen absolute overflow-hidden z-50 bg-black flex items-center justify-center">
+        Loading globe...
+      </div>
+    );
   }
 
   return (
     <div className="w-full h-full overflow-hidden" ref={parentRef}>
       <GlobeWrapped
         forwardRef={props.globeRef}
-        width={width}
-        height={height}
+        // width={width}
+        // height={height}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}

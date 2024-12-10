@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { CoffeeDataFeatures } from "../types/coffee_data";
-import { dynamicLabel } from "@/app/constants/constants";
+import { dynamicTitle } from "@/app/constants/constants";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
@@ -43,7 +43,7 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
     labels: countries.map((country) => country.country),
     datasets: [
       {
-        label: `Coffee ${dynamicLabel[type]} Data in ${year}`,
+        label: `Top 10 ${dynamicTitle[type]} Countries in ${year}`,
         data: countries.map((country) => country.dataInYear),
         backgroundColor: generateColors(countries.length),
         borderColor: countries.map(() => "rgba(0, 0, 0, 0.3)"),
@@ -80,16 +80,35 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
   const options: ChartOptions<"bar"> = {
     responsive: true,
     indexAxis: "y",
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     scales: {
       x: {
         beginAtZero: true,
+        border: {
+          color: "gray",
+        },
         grid: {
-          display: false, // Hides the grid on the x-axis
+          drawOnChartArea: false,
+          color: "gray",
+          drawTicks: true,
         },
         ticks: {
           callback: function (value: string | number) {
             return value.toLocaleString();
           },
+          // display: true,
+          autoSkip: true,
+          maxTicksLimit: 4,
+          color: "white",
+        },
+        title: {
+          display: true,
+          color: "white",
+          text: "Amount (kg)",
         },
       },
       y: {
@@ -100,12 +119,20 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
         ticks: {
           padding: 10,
           autoSkip: false,
+          color: "white",
         },
       },
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div className="p-2">
+      <div className="text-2xl font-bold self-center text-center text-outline text-white">
+        Top 10 {dynamicTitle[type]} Countries in {year}
+      </div>
+      <Bar data={data} options={options} />
+    </div>
+  );
 };
 
 export default BarChart;
