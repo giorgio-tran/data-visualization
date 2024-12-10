@@ -36,18 +36,11 @@ type LineChartProps = {
 };
 
 const LineChart = ({ country, type, countries, year, onClose }: LineChartProps) => {
-  const [isChartVisible, setIsChartVisible] = useState(true);
 
   // Filter the selected country's data
   const filteredCountry = countries?.find(
       (d) => d.properties.NAME_LONG === country
   )?.properties[type];
-
-  useEffect(() => {
-    if (filteredCountry && country) {
-      setIsChartVisible(true);
-    }
-  }, [filteredCountry, country]);
 
   // Handle years dynamically
   const years = filteredCountry
@@ -136,14 +129,12 @@ const LineChart = ({ country, type, countries, year, onClose }: LineChartProps) 
 
   // Handle the close button click
   const handleClose = () => {
-    setIsChartVisible(false);
     onClose();
   };
 
   return (
       filteredCountry &&
-      country &&
-      isChartVisible && (
+      country && (
           <>
             <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
               <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative p-2">
