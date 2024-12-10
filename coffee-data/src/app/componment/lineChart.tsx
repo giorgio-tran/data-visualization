@@ -15,6 +15,7 @@ import {
 import { CoffeeDataFeature } from "../types/coffee_data";
 import { dynamicLabel } from "@/app/constants/constants";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 ChartJS.register(
   CategoryScale,
@@ -92,11 +93,6 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
   const options: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
-      title: {
-        display: true,
-        text: `Coffee ${dynamicLabel[type]} Over Time`,
-        color: "white",
-      },
       tooltip: {
         mode: "index",
         titleColor: "white",
@@ -140,20 +136,17 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
     country &&
     isChartVisible && (
       <>
-        <div className="absolute z-100 right-[250px] bottom-[305px] translate-x-1/2 m-4">
-          <div className="text-2xl font-bold self-center text-center text-outline text-white">
-            {country}
-          </div>
-        </div>
         <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative">
+          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative p-2">
             <button
               onClick={() => setIsChartVisible(false)}
-              className="absolute top-2 right-2 text-white text-xl bg-transparent border-none cursor-pointer"
-              aria-label="Close chart"
+              className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
             >
-              X
+              <X className="w-5 h-5" />
             </button>
+            <div className="text-2xl font-bold self-center text-center text-outline text-white">
+              {country}
+            </div>
             <Line data={data as ChartData<"line">} options={options} />
           </div>
         </div>
