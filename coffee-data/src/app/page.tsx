@@ -20,11 +20,15 @@ const MainPage = () => {
     features: [],
   });
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-
+  const [isChartClosed, setIsChartClosed] = useState(false);
   const [year, setYear] = useState<string>("2019");
   // const year = "2019"; // here for now to deploy
 
   const handleSelectedCountry = (country: string) => {
+    // If the same country is selected, ensure the chart is reopened
+    if (country === selectedCountry && isChartClosed) {
+      setIsChartClosed(false);
+    }
     setSelectedCountry(country);
   };
 
@@ -40,6 +44,8 @@ const MainPage = () => {
         });
       });
   }, [category, year]);
+
+  const globeRef = useRef<GlobeMethods | undefined>();
 
   useEffect(() => {
     if (selectedCountry && globeRef.current && countries.features) {
@@ -59,7 +65,6 @@ const MainPage = () => {
       }
     }
   }, [selectedCountry]);
-  const globeRef = useRef<GlobeMethods | undefined>();
 
   return (
     <div className="w-full h-screen">
@@ -74,7 +79,7 @@ const MainPage = () => {
         <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
           <CountryDropdown
             category={category}
-            setSelectedCountry={setSelectedCountry}
+            setSelectedCountry={handleSelectedCountry}
             selectedCountry={selectedCountry}
             countries={countries.features as CoffeeDataFeature[]}
           />
@@ -158,14 +163,14 @@ const MainPage = () => {
           <BarChart year={year} type={category} />
         </div>
       </div>
-
-      {selectedCountry && (
-        <LineChart
-          countries={countries.features as CoffeeDataFeature[]}
-          country={selectedCountry}
-          type={category}
-          year={year}
-        ></LineChart>
+      {selectedCountry && !isChartClosed && (
+          <LineChart
+              countries={countries.features as CoffeeDataFeature[]}
+              country={selectedCountry}
+              type={category}
+              year={year}
+              onClose={() => setIsChartClosed(true)} // Pass a handler to close the chart
+          />
       )}
     </div>
   );

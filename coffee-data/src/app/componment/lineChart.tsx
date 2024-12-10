@@ -18,13 +18,13 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title,
+    Tooltip,
+    Legend
 );
 
 type LineChartProps = {
@@ -32,14 +32,16 @@ type LineChartProps = {
   type: "coffee_imports" | "coffee_exports" | "coffee_production";
   countries: CoffeeDataFeature[];
   year: string;
+  onClose: () => void; // Callback to notify parent when chart closes
 };
 
-const LineChart = ({ country, type, countries, year }: LineChartProps) => {
+const LineChart = ({ country, type, countries, year, onClose }: LineChartProps) => {
   const [isChartVisible, setIsChartVisible] = useState(true);
 
-  const filteredCountry = countries?.filter(
-    (d) => d.properties.NAME_LONG === country
-  )[0]?.properties[type];
+  // Filter the selected country's data
+  const filteredCountry = countries?.find(
+      (d) => d.properties.NAME_LONG === country
+  )?.properties[type];
 
   useEffect(() => {
     if (filteredCountry && country) {
@@ -47,32 +49,33 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
     }
   }, [filteredCountry, country]);
 
+  // Handle years dynamically
   const years = filteredCountry
-    ? Object.keys(filteredCountry).filter(
-        (d) =>
-          d !== "Country" &&
-          d !== "Total_import" &&
-          d !== "Total_export" &&
-          d !== "Total_production"
+      ? Object.keys(filteredCountry).filter(
+          (d) =>
+              d !== "Country" &&
+              d !== "Total_import" &&
+              d !== "Total_export" &&
+              d !== "Total_production"
       )
-    : null;
+      : null;
 
   const formatYear = (year: string) => {
-    const nextYear = parseInt(year.toString(), 10) + 1;
+    const nextYear = parseInt(year, 10) + 1;
     return `${year}/${nextYear.toString().slice(-2)}`;
   };
 
   const data = {
-    labels: years,
+    labels: years ?? [],
     datasets: [
       {
         label: `Coffee ${dynamicLabel[type]} Data for ${country}`,
         data: years?.map((year) => {
-          if (parseFloat(filteredCountry[year]) < 0) {
-            return null;
+          if (filteredCountry && parseFloat(filteredCountry[year]) >= 0) {
+            return parseFloat(filteredCountry[year]);
           }
-          return parseFloat(filteredCountry[year]);
-        }),
+          return null;
+        }) ?? [],
         fill: false,
         borderColor: "#7e22ce",
       },
@@ -131,27 +134,33 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
     },
   };
 
+  // Handle the close button click
+  const handleClose = () => {
+    setIsChartVisible(false);
+    onClose();
+  };
+
   return (
-    filteredCountry &&
-    country &&
-    isChartVisible && (
-      <>
-        <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
-          <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative p-2">
-            <button
-              onClick={() => setIsChartVisible(false)}
-              className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="text-2xl font-bold self-center text-center text-outline text-white">
-              {country}
+      filteredCountry &&
+      country &&
+      isChartVisible && (
+          <>
+            <div className="absolute z-100 right-0 bottom-0 m-4 bg-none">
+              <div className="w-[500px] h-[300px] bg-black/60 backdrop-blur-lg rounded-xl mt-2 border border-gray-800 relative p-2">
+                <button
+                    onClick={handleClose}
+                    className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+                <div className="text-2xl font-bold self-center text-center text-outline text-white">
+                  {country}
+                </div>
+                <Line data={data as ChartData<"line">} options={options} />
+              </div>
             </div>
-            <Line data={data as ChartData<"line">} options={options} />
-          </div>
-        </div>
-      </>
-    )
+          </>
+      )
   );
 };
 
