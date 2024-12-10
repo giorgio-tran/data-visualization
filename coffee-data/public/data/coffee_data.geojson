@@ -14106,7 +14106,7 @@
           "Total_import": "5731080000"
         }
       },
-      "bbox": [-180, 41.151416, 180, 81.2504],
+      "bbox": [100, 60, 100, 60],
       "geometry": {
         "type": "MultiPolygon",
         "coordinates": [
