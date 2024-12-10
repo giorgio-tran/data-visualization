@@ -73,7 +73,7 @@ const MainPage = () => {
         <InfoBox />
       </div>
       <div className="absolute z-10 m-4 bottom-0">
-        <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4">
+        <div className="flex flex-col gap-6 justify-between bg-black/70 backdrop-blur-xl border border-gray-800 rounded-lg p-4 w-80">
           <CountryDropdown
             category={category}
             setSelectedCountry={handleSelectedCountry}
@@ -161,13 +161,13 @@ const MainPage = () => {
         </div>
       </div>
       {selectedCountry && !isChartClosed && (
-          <LineChart
-              countries={countries.features as CoffeeDataFeature[]}
-              country={selectedCountry}
-              type={category}
-              year={year}
-              onClose={() => setIsChartClosed(true)} // Pass a handler to close the chart
-          />
+        <LineChart
+          countries={countries.features as CoffeeDataFeature[]}
+          country={selectedCountry}
+          type={category}
+          year={year}
+          onClose={() => setIsChartClosed(true)} // Pass a handler to close the chart
+        />
       )}
     </div>
   );

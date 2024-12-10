@@ -54,6 +54,7 @@ const CountryDropdown = ({
         Select a Country
       </label>
       <input
+        autoComplete="off"
         type="text"
         id="country"
         className="mt-1 block w-full p-2 border border-gray-800 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base bg-black/70 text-white"
