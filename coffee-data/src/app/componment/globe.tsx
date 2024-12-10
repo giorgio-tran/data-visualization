@@ -90,7 +90,11 @@ export default function GlobeComponent(props: GlobeComponentProps) {
   colorScale.domain([0, maxVal]);
 
   if (countries.features?.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-screen h-screen absolute overflow-hidden z-50 bg-black flex items-center justify-center">
+        Loading globe...
+      </div>
+    );
   }
 
   return (
