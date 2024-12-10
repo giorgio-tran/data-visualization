@@ -142,7 +142,7 @@ const LineChart = ({ country, type, countries, year }: LineChartProps) => {
               onClick={() => setIsChartVisible(false)}
               className="absolute bg-slate-800 -right-2 -top-2 p-1 rounded-full"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-slate-300" />
             </button>
             <div className="text-2xl font-bold self-center text-center text-outline text-white">
               {country}
