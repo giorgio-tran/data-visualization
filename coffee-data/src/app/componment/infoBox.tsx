@@ -33,7 +33,7 @@ const contentData = [
             <img
               src="https://github.com/giorgio-tran.png"
               alt="Giorgio Tran"
-              className="w-10 h-10 rounded-full"
+              className="w-11 h-11 rounded-full"
             />
             <div>
               <span className="font-semibold">Giorgio Tran</span>
@@ -52,7 +52,7 @@ const contentData = [
             <img
               src="https://feimeichen.github.io/images/FeimeiChen.jpeg"
               alt="Feimei Chen"
-              className="w-10 h-10 rounded-full"
+              className="w-11 h-11 rounded-full"
             />
             <div>
               <span className="font-semibold">Feimei Chen</span>
@@ -71,7 +71,7 @@ const contentData = [
             <img
               src="https://avatars.githubusercontent.com/u/77360958?v=4"
               alt="Hok Wai Chan"
-              className="w-10 h-10 rounded-full"
+              className="w-11 h-11 rounded-full"
             />
             <div>
               <span className="font-semibold">Hok Wai Chan</span>

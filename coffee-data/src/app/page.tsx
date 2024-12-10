@@ -25,10 +25,7 @@ const MainPage = () => {
   // const year = "2019"; // here for now to deploy
 
   const handleSelectedCountry = (country: string) => {
-    // If the same country is selected, ensure the chart is reopened
-    if (country === selectedCountry && isChartClosed) {
-      setIsChartClosed(false);
-    }
+    setIsChartClosed(false);
     setSelectedCountry(country);
   };
 
