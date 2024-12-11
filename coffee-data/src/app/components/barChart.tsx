@@ -78,6 +78,7 @@ const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
   }, [year, type]);
 
   const options: ChartOptions<"bar"> = {
+    animation: false,
     responsive: true,
     indexAxis: "y",
     plugins: {
