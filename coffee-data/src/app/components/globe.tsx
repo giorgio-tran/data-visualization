@@ -91,8 +91,10 @@ export default function GlobeComponent(props: GlobeComponentProps) {
 
   if (countries.features?.length === 0) {
     return (
-      <div className="w-screen h-screen absolute overflow-hidden z-50 bg-black flex items-center justify-center">
-        Loading globe...
+      <div className="w-screen h-screen absolute overflow-hidden z-50 bg-black flex flex-col items-center justify-center gap-2">
+        {/* Loading globe... */}
+        <img src="/pedro.gif" />
+        <div className="font-bold italic">Loading...</div>
       </div>
     );
   }
