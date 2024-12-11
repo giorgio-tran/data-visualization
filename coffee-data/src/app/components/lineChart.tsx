@@ -114,6 +114,10 @@ const LineChart = ({
     },
     scales: {
       x: {
+        grid: {
+          drawOnChartArea: false,
+          drawTicks: false,
+        },
         type: "category",
         title: {
           display: true,
@@ -130,6 +134,7 @@ const LineChart = ({
           display: true,
           color: "white",
           text: "Amount (kg)",
+          drawTicks: false,
         },
         grid: {
           drawOnChartArea: false,
