@@ -47,7 +47,7 @@ const contentData = [
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-600 underline"
               >
-                GitHub Profile
+                Portfolio
               </a>
             </div>
           </li>
@@ -68,7 +68,7 @@ const contentData = [
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-600 underline"
               >
-                GitHub Profile
+                Portfolio
               </a>
             </div>
           </li>
@@ -89,7 +89,7 @@ const contentData = [
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-600 underline"
               >
-                GitHub Profile
+                Portfolio
               </a>
             </div>
           </li>
