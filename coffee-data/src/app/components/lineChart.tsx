@@ -134,10 +134,10 @@ const LineChart = ({
           display: true,
           color: "white",
           text: "Amount (kg)",
-          drawTicks: false,
         },
         grid: {
           drawOnChartArea: false,
+          drawTicks: false,
         },
         ticks: {
           callback: function (value: string | number) {
