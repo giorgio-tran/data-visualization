@@ -98,12 +98,18 @@ const LineChart = ({
 
   function specialYearColor(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
-    const yearFormat = type === "coffee_production" ? formatYear(year) : year;
-    return years?.[index] === yearFormat ? "yellow" : "#7e22ce";
+    if (isProduction) {
+      return productionYears?.[index] === year ? "yellow" : "#7e22ce";
+    }
+    return years?.[index] === year ? "yellow" : "#7e22ce";
   }
 
   function specialYearRadius(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
+
+    if (isProduction) {
+      return productionYears?.[index] === year ? 5 : 3;
+    }
     return years?.[index] === year ? 5 : 3;
   }
 
