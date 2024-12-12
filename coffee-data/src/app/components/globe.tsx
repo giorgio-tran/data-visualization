@@ -137,11 +137,11 @@ export default function GlobeComponent(props: GlobeComponentProps) {
                 <div id="polygon-label-background"></div>
                 <div id="polygon-label-text">
                   <b>${data.properties.NAME_LONG}</b> <br />
-                  Coffee ${dynamicLabel[category]}: ${(
-            getVal(data) / 1000
+                  Coffee ${dynamicLabel[category]}: ${getVal(
+            data
           ).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-          })} Metric Tons<br/>
+            minimumFractionDigits: 0,
+          })} kg<br/>
                   ${
                     category === "coffee_production"
                       ? `Coffee Type: <i>${coffeeType}</i><br/>`
