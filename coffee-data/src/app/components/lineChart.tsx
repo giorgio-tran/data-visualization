@@ -62,23 +62,39 @@ const LineChart = ({
     return `${year}/${nextYear.toString().slice(-2)}`;
   };
 
+  const isProduction = type === "coffee_production";
+  const productionYears = years
+    ?.filter((year) => year !== "Coffee type")
+    .map((year) => year.slice(0, 4));
+
   const data = {
-    labels: years ?? [],
+    labels: isProduction ? productionYears : years,
     datasets: [
       {
         label: `Coffee ${dynamicLabel[type]} Data for ${country}`,
-        data:
-          years?.map((year) => {
-            if (filteredCountry && parseFloat(filteredCountry[year]) >= 0) {
-              return parseFloat(filteredCountry[year]);
-            }
-            return null;
-          }) ?? [],
+        data: isProduction
+          ? productionYears?.map((year) => {
+              if (
+                filteredCountry &&
+                parseFloat(filteredCountry[formatYear(year)]) >= 0
+              ) {
+                return parseFloat(filteredCountry[formatYear(year)]);
+              }
+              return null;
+            })
+          : years?.map((year) => {
+              if (filteredCountry && parseFloat(filteredCountry[year]) >= 0) {
+                return parseFloat(filteredCountry[year]);
+              }
+              return null;
+            }) ?? [],
         fill: false,
         borderColor: "#7e22ce",
       },
     ],
   };
+
+  console.log("data", data);
 
   function specialYearColor(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
