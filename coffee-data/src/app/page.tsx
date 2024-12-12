@@ -157,7 +157,11 @@ const MainPage = () => {
       />
       <div className="absolute z-10 right-0 top-0 m-4 bg-none">
         <div className="w-[500px] h-[300px] bg-black/70 backdrop-blur-lg rounded-xl border border-gray-800">
-          <BarChart year={year} type={category} />
+          <BarChart
+            year={year}
+            type={category}
+            countries={countries.features as CoffeeDataFeature[]}
+          />
         </div>
       </div>
       {selectedCountry && !isChartClosed && (
