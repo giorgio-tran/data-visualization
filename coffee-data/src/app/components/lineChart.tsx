@@ -94,8 +94,6 @@ const LineChart = ({
     ],
   };
 
-  console.log("data", data);
-
   function specialYearColor(ctx: ScriptableContext<"line">) {
     const index = ctx.dataIndex;
     if (isProduction) {

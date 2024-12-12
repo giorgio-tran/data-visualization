@@ -77,8 +77,6 @@ const BarChart = ({
     ],
   };
 
-  console.log("date", data);
-
   const options: ChartOptions<"bar"> = {
     animation: false,
     responsive: true,

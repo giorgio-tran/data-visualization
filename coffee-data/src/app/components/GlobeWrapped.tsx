@@ -24,7 +24,7 @@ const GlobeWrapped = ({ forwardRef, ...otherProps }: GlobeWrappedProps) => {
     if (window) {
       window.addEventListener("resize", updateWidth);
     }
-    console.log("rerendering globe");
+
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
   return (

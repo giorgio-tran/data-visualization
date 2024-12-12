@@ -94,7 +94,6 @@ const MainPage = () => {
             tooltipValueFormatOptions={{ useGrouping: false }}
             onChange={(value) => {
               setYear(value.toString());
-              console.log(year);
             }}
             classNames={{
               base: "max-w-md",
@@ -128,23 +127,6 @@ const MainPage = () => {
           <div className="w-full">
             <ActionButtons onCategoryChange={setCategory} category={category} />
           </div>
-          {/* <button
-            onClick={() => {
-              if (globeRef.current) {
-                console.log(countries?.features[0]);
-                globeRef.current.pointOfView(
-                  {
-                    lat: countries?.features[0]?.geometry.coordinates[0][0][1],
-                    lng: countries?.features[0]?.geometry.coordinates[0][0][0],
-                    altitude: 0.2,
-                  },
-                  1000
-                );
-              }
-            }}
-          >
-            CLICK ME
-          </button> */}
         </div>
       </div>
       <GlobeComponent
