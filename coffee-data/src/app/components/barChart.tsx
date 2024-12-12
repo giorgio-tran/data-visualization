@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Chart as ChartJS,
   BarElement,
@@ -9,7 +9,7 @@ import {
   ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { CoffeeDataFeatures } from "../types/coffee_data";
+import { CoffeeDataFeature } from "../types/coffee_data";
 import { dynamicTitle } from "@/app/constants/constants";
 
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
@@ -31,51 +31,53 @@ const generateColors = (numColors: number): string[] => {
   return colors;
 };
 
-const BarChart = ({ year, type }: { year: string; type: CoffeeDataType }) => {
-  const [countries, setCountries] = useState<Country[]>([]);
-
-  const url = "/data/coffee_data.geojson";
+const BarChart = ({
+  year,
+  type,
+  countries,
+}: {
+  year: string;
+  type: CoffeeDataType;
+  countries: CoffeeDataFeature[];
+}) => {
+  // const url = "/data/coffee_data.geojson";
   const formatYear = (year: string) => {
     const nextYear = parseInt(year.toString(), 10) + 1;
     return `${year}/${nextYear.toString().slice(-2)}`;
   };
+
+  const formattedYear = type === "coffee_production" ? formatYear(year) : year;
+
+  const sortedCountries = countries
+    .map((feature) => {
+      const data = feature.properties[type];
+      if (data && data[formattedYear] !== undefined) {
+        return {
+          country: data.Country,
+          dataInYear: parseInt(data[formattedYear]) || 0, // Parse as number, default to 0 if invalid
+        };
+      } else {
+        return null; // Skip if no coffee_imports data
+      }
+    })
+    .filter((item) => item !== null)
+    .sort((a: Country, b: Country) => b.dataInYear - a.dataInYear)
+    .slice(0, 10);
+
   const data = {
-    labels: countries.map((country) => country.country),
+    labels: sortedCountries.map((country) => country.country),
     datasets: [
       {
         label: `Top 10 ${dynamicTitle[type]} Countries in ${year}`,
-        data: countries.map((country) => country.dataInYear),
-        backgroundColor: generateColors(countries.length),
-        borderColor: countries.map(() => "rgba(0, 0, 0, 0.3)"),
+        data: sortedCountries.map((country) => country.dataInYear),
+        backgroundColor: generateColors(sortedCountries.length),
+        borderColor: sortedCountries.map(() => "rgba(0, 0, 0, 0.3)"),
         borderWidth: 1,
       },
     ],
   };
-  useEffect(() => {
-    const fetchYear = type === "coffee_production" ? formatYear(year) : year;
-    fetch(url)
-      .then((res) => res.json())
-      .then((items: CoffeeDataFeatures) => {
-        const filteredData: Country[] = items.features
-          .map((feature) => {
-            const data = feature.properties[type];
-            if (data && data[fetchYear] !== undefined) {
-              return {
-                country: data.Country,
-                dataInYear: parseInt(data[fetchYear]) || 0, // Parse as number, default to 0 if invalid
-              };
-            } else {
-              return null; // Skip if no coffee_imports data
-            }
-          })
-          .filter((item) => item !== null)
-          .sort((a: Country, b: Country) => b.dataInYear - a.dataInYear)
-          .slice(0, 10);
-        setCountries(filteredData);
-        console.log(filteredData);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [year, type]);
+
+  console.log("date", data);
 
   const options: ChartOptions<"bar"> = {
     animation: false,
